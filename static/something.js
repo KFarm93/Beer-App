@@ -7,6 +7,7 @@ app.factory("Commerce_api", function factoryFunction($http, $cookies, $rootScope
       url: '/beer/' + name
     });
   };
+  return service;
 });
 
 app.controller('HomeController', function($scope, Commerce_api, $cookies, $rootScope){
@@ -23,7 +24,7 @@ app.config(function($stateProvider, $urlRouterProvider){
     .state({
       name : 'home',
       url : '/home',
-      templateUrl: 'index.html',
+      templateUrl: 'frontpage.html',
       controller: 'HomeController'
   });
 });
