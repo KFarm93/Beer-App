@@ -3,6 +3,10 @@ from BreweryDB import BreweryDb
 brewerydb = BreweryDb()
 
 app = Flask('beer_trader', static_url_path = '')
+@app.route('/')
+def home():
+    return app.send_static_file('index.html')
+
 @app.route('/beer/<name>')
 def beerCall(name):
     print 'stuff'
