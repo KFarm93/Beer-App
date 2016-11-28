@@ -51,6 +51,6 @@ app = Flask('beer_trader', static_url_path = '')
 @app.route('/beer/<name>')
 def beerCall(name):
     data = BreweryDB.__make_simple_endpoint_fun(name)
-    return data
+    print data
 
 app.run(debug=True)
