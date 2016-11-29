@@ -10,3 +10,20 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+
+.stock_beer {
+  height: 220px;
+  width: 220px;
+}
+div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 5%;
+}
+img {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 5%;
+}
