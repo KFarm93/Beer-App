@@ -1,6 +1,8 @@
-<p ng-repeat="result in results">
-  {{result.name}}<br>
-  <img src="{{result.labels.medium}}" ng-if="result.labels">
-  <img src="{{result.images.medium}}" ng-if="result.images">
-  <img class="stock_beer" src="iStock_beer.jpg" ng-if="!result.labels && !result.images">
-</p>
+<div class="">
+  <h2 ng-repeat="result in results">
+    {{result.name}}<br>
+    <img src="{{result.labels.medium}}" ng-if="result.labels">
+    <img src="{{result.images.medium}}" ng-if="result.images">
+    <img class="stock_beer" src="iStock_beer.jpg" ng-if="!result.labels && !result.images">
+  </h2>
+</div>
