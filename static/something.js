@@ -4,7 +4,7 @@ app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope){
   var service = {};
   $cookies.put('page_count', 0);
   $cookies.put('beer_page_count', 0);
-  
+
   service.displayBeers = function(page_num){
     return $http({
       url: '/beers/' + page_num
@@ -19,7 +19,7 @@ app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope){
 
   service.displayResults = function(search_term) {
     return $http({
-      url: '/beer/' + search_term
+      url: '/search/' + search_term
     });
   };
   service.signUp = function(userInfo) {
@@ -89,7 +89,7 @@ app.controller('SearchController', function($scope, BeerAPI, $cookies, $rootScop
     });
 });
 
-app.controller('SignUpController', function($scope, $state, Commerce_api, $rootScope) {
+app.controller('SignUpController', function($scope, $state, BeerAPI, $rootScope) {
  $scope.submit = function() {
    var userInfo = {
      'username': $scope.username,
@@ -100,7 +100,7 @@ app.controller('SignUpController', function($scope, $state, Commerce_api, $rootS
      'password2': $scope.pass2
    };
    console.log('check1');
-   Commerce_api.signUp(userInfo).success(function() {
+   BeerAPI.signUp(userInfo).success(function() {
      console.log(userInfo);
      console.log('got to signUp service');
      $state.go('home');
@@ -108,9 +108,9 @@ app.controller('SignUpController', function($scope, $state, Commerce_api, $rootS
  };
 });
 
-app.controller('LoginController', function($scope, Commerce_api, $state, $cookies, $rootScope){
+app.controller('LoginController', function($scope, BeerAPI, $state, $cookies, $rootScope){
   $scope.submitEnterSite = function() {
-   Commerce_api.userLogin($scope.username, $scope.pass1).success(function(response) {
+   BeerAPI.userLogin($scope.username, $scope.pass1).success(function(response) {
      console.log('in userlogin factoryFunction');
      $scope.loginFail = false;
      $cookies.put('token', response.auth_token.token);
@@ -176,5 +176,4 @@ app.config(function($stateProvider, $urlRouterProvider){
       templateUrl: 'login.html',
       controller: 'LoginController'
     });
-  });
 });
