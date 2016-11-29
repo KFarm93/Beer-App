@@ -15,15 +15,18 @@
   height: 220px;
   width: 220px;
 }
-div {
+.flex {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 5%;
+  margin: 10%;
 }
 img {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin: 5%;
+  margin: 10%;
+  max-width: 70%;
 }
+.block {
+  display: block;
+  text-align: center;
+}
+nav-pr

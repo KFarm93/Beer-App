@@ -1,8 +1,12 @@
-<div class="">
-  <h2 ng-repeat="result in results">
-    {{result.name}}<br>
-    <img src="{{result.labels.medium}}" ng-if="result.labels">
-    <img src="{{result.images.medium}}" ng-if="result.images">
-    <img class="stock_beer" src="iStock_beer.jpg" ng-if="!result.labels && !result.images">
-  </h2>
+<div class="flex">
+  <div class="block" ng-repeat="result in results">
+      <h4 >{{result.name}}</h4>
+
+      <img src="{{result.labels.medium}}" ng-if="result.labels">
+
+      <img src="{{result.images.medium}}" ng-if="result.images">
+
+      <img class="stock_beer" src="iStock_beer.jpg" ng-if="!result.labels && !result.images">
+
+  </div>
 </div>
