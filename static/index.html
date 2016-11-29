@@ -6,14 +6,17 @@
     <script src="angular-ui-router.js"></script>
     <script src="angular-cookies.min.js"></script>
     <script src="something.js"></script>
+    <link rel="stylesheet" href="style.css">
     <meta charset="utf-8">
     <title>Beer</title>
   </head>
   <body ng-app="BeerApp">
-    <input type="text" ng-model="searchTerm">
+    <input type="text" ng-model="searchTerm" placeholder="Search">
     <a ui-sref="results({search_term: searchTerm})">
       <button type="button">Click it real good</button>
     </a>
+    <a ui-sref="login()"> <button type="button">Login</button></a>
+    <a ui-sref="signup()"> <button type="button">Signup</button></a>
     <ui-view></ui-view>
   </body>
 </html>
