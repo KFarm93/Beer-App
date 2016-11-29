@@ -17,18 +17,25 @@
 }
 
 div {
+  
+.flex {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 5%;
+  margin: 10%;
 }
 img {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin: 5%;
+  margin: 10%;
+  max-width: 70%;
 }
+.block {
+  display: block;
+  text-align: center;
+}
+
 
 .detailsTitle {
   text-align: center;
 }
+
+nav-pr
