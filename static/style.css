@@ -1,6 +1,7 @@
 .extras {
   background-color: #222;
 }
+
 .picSize {
   width: 400px;
 }
@@ -16,26 +17,23 @@
   width: 220px;
 }
 
-div {
-  
 .flex {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   margin: 10%;
 }
+
 img {
   margin: 10%;
   max-width: 70%;
 }
+
 .block {
   display: block;
   text-align: center;
 }
 
-
 .detailsTitle {
   text-align: center;
 }
-
-nav-pr
