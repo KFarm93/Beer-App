@@ -1,6 +1,19 @@
 var app = angular.module('BeerApp', ['ui.router', 'ngCookies']);
 
-app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope){
+// app.run(function($rootScope, $cookies, $state) {
+//
+// });
+
+app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope, $state){
+  $rootScope.logOut = function() {
+    console.log('logout clicked');
+    $cookies.remove('username');
+    $cookies.remove('customer_id');
+    $cookies.remove('token');
+    $rootScope.user_name = '';
+    $rootScope.logState = false;
+    $state.go('login');
+  };
   var service = {};
 
   service.displayBeers = function(page_num){
@@ -63,6 +76,15 @@ app.service('productDetails', function() {
 });
 
 // Test controller
+
+app.controller('HomeController', function($scope, BeerAPI, $cookies, $rootScope){
+   $scope.name = 'Budweiser';
+     BeerAPI.displayBeer($scope.name).success(function(results){
+       $scope.results = results;
+       console.log("Here", $scope.results);
+     });
+ });
+
 app.controller('BeersController', function($scope, BeerAPI, $cookies, $rootScope, $stateParams, productDetails, $state){
   $scope.beerSearch = function() {
       BeerAPI.displayBeers($scope.beer_page_num).success(function(results){
@@ -131,6 +153,8 @@ app.controller('SignUpController', function($scope, $state, BeerAPI, $rootScope)
 });
 
 app.controller('LoginController', function($scope, BeerAPI, $state, $cookies, $rootScope){
+  $scope.loginFail = false;
+  console.log('test');
   $scope.submitEnterSite = function() {
    BeerAPI.userLogin($scope.username, $scope.pass1).success(function(response) {
      console.log('in userlogin factoryFunction');
@@ -138,22 +162,15 @@ app.controller('LoginController', function($scope, BeerAPI, $state, $cookies, $r
      $cookies.put('token', response.auth_token.token);
      $cookies.put('customer_id', response.user.id);
      $cookies.put('username', response.user.username);
-
      $rootScope.logState = true;
      $rootScope.user_name = $cookies.get('username');
-     var redirect_to_prod = $cookies.getObject('redirect');
+     $state.go('home');
 
-     if (redirect_to_prod) {
-       $state.go('individual_product', {'product_id': $cookies.get('product_id')});
-       // $cookies.remove('product_id');
-       $cookies.putObject('redirect', false);
-     }
-     else {
-       $state.go('home');
-     }
 
    }).error(function(){
      console.log('failed');
+     $scope.username = '';
+     $scope.pass1 = '';
      $scope.loginFail = true;
    });
 
@@ -172,7 +189,7 @@ app.config(function($stateProvider, $urlRouterProvider){
       name : 'home',
       url : '/home',
       templateUrl: 'frontpage.html',
-      controller: 'HomeController'
+      controller: 'BeersController'
     })
     .state({
       name: 'breweries',
