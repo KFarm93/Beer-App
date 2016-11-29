@@ -13,12 +13,12 @@ app = Flask('beer_trader', static_url_path = '')
 def home():
     return app.send_static_file('index.html')
 
-@app.route('/beers/<beer_name>')
-def beerCall(beer_name):
+@app.route('/beer/<beer_name>')
+def beer(beer_name):
     data = brewerydb.beers({'name':beer_name})
     return jsonify(data)
 
-@app.route('/beer/<page_num>')
+@app.route('/beers/<page_num>')
 def beerCall(page_num):
     data = brewerydb.beers({'p':page_num})
     return jsonify(data)
