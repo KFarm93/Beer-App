@@ -9,6 +9,7 @@ brewerydb = BreweryDb()
 brewerydb.configure(API_KEY, DEFAULT_BASE_URI)
 
 app = Flask('beer_trader', static_url_path = '')
+
 @app.route('/')
 def home():
     return app.send_static_file('index.html')
