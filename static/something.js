@@ -4,6 +4,7 @@ app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope){
   var service = {};
   $cookies.put('page_count', 0);
   $cookies.put('beer_page_count', 0);
+  
   service.displayBeers = function(page_num){
     return $http({
       url: '/beers/' + page_num
