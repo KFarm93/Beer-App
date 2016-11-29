@@ -84,8 +84,8 @@ app.controller('SearchController', function($scope, BeerAPI, $cookies, $rootScop
     $scope.search_term = $stateParams.search_term;
     console.log($scope.search_term);
     BeerAPI.displayResults($scope.search_term).success(function(results) {
+      console.log(results);
       $scope.results = results.data;
-      console.log($scope.results);
     });
 });
 
