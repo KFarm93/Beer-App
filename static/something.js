@@ -52,12 +52,27 @@ app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope, $st
        }
      });
    };
-  service.getDetails = function(name) {
-    return $http ({
-      url : '/search/' + name
-    });
-  };
+  // service.getDetails = function(id, type, name) {
+  //   return $http ({
+  //     url : '/ind_result',
+  //     params: {
+  //       id: id,
+  //       type: type,
+  //       name: name
+  //     }
+  //   });
+  // };
   return service;
+});
+
+app.service('productDetails', function() {
+  var productData = {};
+  this.saveData = function(data) {
+    this.productData = data;
+  };
+  this.getData = function(){
+    return this.productData;
+  };
 });
 
 // Test controller
@@ -70,35 +85,50 @@ app.controller('HomeController', function($scope, BeerAPI, $cookies, $rootScope)
      });
  });
 
-app.controller('BeersController', function($scope, BeerAPI, $cookies, $rootScope, $stateParams){
+app.controller('BeersController', function($scope, BeerAPI, $cookies, $rootScope, $stateParams, productDetails, $state){
   $scope.beerSearch = function() {
       BeerAPI.displayBeers($scope.beer_page_num).success(function(results){
         $scope.results = results.data;
         $cookies.put('beer_page_num', $scope.beer_page_num);
+        $scope.getBeerDetails = function(result) {
+            productDetails.saveData({
+              object: result
+            });
+          $state.go('details');
+        };
       });
   };
   $scope.beerSearch($cookies.get('beer_page_num'));
 });
 
-app.controller('BreweryController', function($scope, BeerAPI, $cookies, $rootScope, $stateParams){
+app.controller('BreweryController', function($scope, BeerAPI, $cookies, $rootScope, $stateParams, productDetails, $state){
 
     $scope.brewerySearch = function() {
       BeerAPI.displayBreweries($scope.page_num).success(function(results){
         $scope.results = results.data;
         $cookies.put('page_num', $scope.page_num);
+        $scope.getBeerDetails = function(result) {
+            productDetails.saveData({
+              object: result
+            });
+          $state.go('details');
+        };
       });
     };
     $scope.brewerySearch($cookies.get('page_num'));
 });
 
-app.controller('SearchController', function($scope, BeerAPI, $cookies, $rootScope, $stateParams, $state) {
+app.controller('SearchController', function($scope, BeerAPI, $cookies, $rootScope, $stateParams, $state, productDetails) {
     $scope.search_term = $stateParams.search_term;
     console.log($scope.search_term);
     BeerAPI.displayResults($scope.search_term).success(function(results) {
       console.log(results);
       $scope.results = results.data;
-      $scope.getBeerDetails = function(beer) {
-        $state.go('details', {beerName : beer});
+      $scope.getBeerDetails = function(result) {
+          productDetails.saveData({
+            object: result
+          });
+        $state.go('details');
       };
     });
 });
@@ -147,12 +177,10 @@ app.controller('LoginController', function($scope, BeerAPI, $state, $cookies, $r
  };
 });
 
-app.controller('BeerDetailsController', function($scope, BeerAPI, $state, $stateParams) {
-  BeerAPI.getDetails($stateParams.beerName).success(function(results) {
-    console.log($stateParams.beerName);
-    $scope.details = results;
-    console.log(results);
-  });
+app.controller('BeerDetailsController', function($scope, BeerAPI, $state, $stateParams, productDetails) {
+  var data = productDetails.getData();
+  $scope.details = data.object;
+  console.log($scope.details);
 });
 
 app.config(function($stateProvider, $urlRouterProvider){
@@ -195,7 +223,7 @@ app.config(function($stateProvider, $urlRouterProvider){
     })
     .state({
       name : 'details',
-      url : '/beers/{beerName}',
+      url : '/details',
       templateUrl: 'details.html',
       controller: 'BeerDetailsController'
   });
