@@ -41,6 +41,11 @@ app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope){
        }
      });
    };
+  service.getDetails = function(name) {
+    return $http ({
+      url : '/search/' + name
+    });
+  };
   return service;
 });
 
@@ -80,12 +85,15 @@ app.controller('BreweryController', function($scope, BeerAPI, $cookies, $rootSco
     $scope.brewerySearch($scope.page_num);
 });
 
-app.controller('SearchController', function($scope, BeerAPI, $cookies, $rootScope, $stateParams) {
+app.controller('SearchController', function($scope, BeerAPI, $cookies, $rootScope, $stateParams, $state) {
     $scope.search_term = $stateParams.search_term;
     console.log($scope.search_term);
     BeerAPI.displayResults($scope.search_term).success(function(results) {
       console.log(results);
       $scope.results = results.data;
+      $scope.getBeerDetails = function(beer) {
+        $state.go('details', {beerName : beer});
+      };
     });
 });
 
@@ -138,6 +146,14 @@ app.controller('LoginController', function($scope, BeerAPI, $state, $cookies, $r
  };
 });
 
+app.controller('BeerDetailsController', function($scope, BeerAPI, $state, $stateParams) {
+  BeerAPI.getDetails($stateParams.beerName).success(function(results) {
+    console.log($stateParams.beerName);
+    $scope.details = results;
+    console.log(results);
+  });
+});
+
 app.config(function($stateProvider, $urlRouterProvider){
   $stateProvider
     .state({
@@ -175,5 +191,11 @@ app.config(function($stateProvider, $urlRouterProvider){
       url : '/user/login',
       templateUrl: 'login.html',
       controller: 'LoginController'
-    });
+    })
+    .state({
+      name : 'details',
+      url : '/beers/{beerName}',
+      templateUrl: 'details.html',
+      controller: 'BeerDetailsController'
+  });
 });
