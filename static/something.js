@@ -12,6 +12,7 @@ app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope, $st
   }
   $rootScope.searchFunction = function(searched) {
     console.log("This is searched:", searched);
+    $state.go('results', {search_term: searched});
   };
 
   $rootScope.logOut = function() {
