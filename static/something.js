@@ -5,6 +5,15 @@ var app = angular.module('BeerApp', ['ui.router', 'ngCookies']);
 // });
 
 app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope, $state){
+  console.log("hi");
+  $rootScope.user_name = $cookies.get('username');
+  if ($rootScope.user_name) {
+    $rootScope.logState = true;
+  }
+  $rootScope.searchFunction = function(searched) {
+    console.log("This is searched:", searched);
+  };
+
   $rootScope.logOut = function() {
     console.log('logout clicked');
     $cookies.remove('username');
@@ -12,7 +21,7 @@ app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope, $st
     $cookies.remove('token');
     $rootScope.user_name = '';
     $rootScope.logState = false;
-    $state.go('login');
+    $state.go('home');
   };
   var service = {};
 
@@ -78,11 +87,12 @@ app.service('productDetails', function() {
 // Test controller
 
 app.controller('HomeController', function($scope, BeerAPI, $cookies, $rootScope){
-   $scope.name = 'Budweiser';
-     BeerAPI.displayBeer($scope.name).success(function(results){
-       $scope.results = results;
-       console.log("Here", $scope.results);
-     });
+  //  $scope.name = 'Budweiser';
+  //    BeerAPI.displayBeer($scope.name).success(function(results){
+  //      $scope.results = results;
+  //      console.log("Here", $scope.results);
+  //    });
+
  });
 
 app.controller('BeersController', function($scope, BeerAPI, $cookies, $rootScope, $stateParams, productDetails, $state){
@@ -122,7 +132,7 @@ app.controller('SearchController', function($scope, BeerAPI, $cookies, $rootScop
     $scope.search_term = $stateParams.search_term;
     console.log($scope.search_term);
     BeerAPI.displayResults($scope.search_term).success(function(results) {
-      console.log(results);
+      console.log("These are the results:", results);
       $scope.results = results.data;
       $scope.getBeerDetails = function(result) {
           productDetails.saveData({
@@ -164,6 +174,7 @@ app.controller('LoginController', function($scope, BeerAPI, $state, $cookies, $r
      $cookies.put('username', response.users.username);
      $rootScope.logState = true;
      $rootScope.user_name = $cookies.get('username');
+     console.log($rootScope.user_name);
      $state.go('home');
 
 
@@ -188,8 +199,7 @@ app.config(function($stateProvider, $urlRouterProvider){
     .state({
       name : 'home',
       url : '/home',
-      templateUrl: 'frontpage.html',
-      controller: 'BeersController'
+      controller: 'HomeController'
     })
     .state({
       name: 'breweries',
