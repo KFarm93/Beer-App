@@ -53,6 +53,7 @@ def signup():
 def cellar():
     data = request.get_json()
     name = data['details']['name']
+
     db.insert(
         "beer",
         name = data['details']['name'],
