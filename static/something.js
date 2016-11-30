@@ -65,10 +65,11 @@ app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope, $st
   return service;
 });
 
-app.service('productDetails', function() {
+app.service('productDetails', function($cookies) {
   var productData = {};
   this.saveData = function(data) {
     this.productData = data;
+    $cookies.putObject('object', data.object);
   };
   this.getData = function(){
     return this.productData;
@@ -177,9 +178,10 @@ app.controller('LoginController', function($scope, BeerAPI, $state, $cookies, $r
  };
 });
 
-app.controller('BeerDetailsController', function($scope, BeerAPI, $state, $stateParams, productDetails) {
-  var data = productDetails.getData();
-  $scope.details = data.object;
+app.controller('BeerDetailsController', function($scope, BeerAPI, $state, $stateParams, productDetails, $cookies) {
+
+  $scope.details = $cookies.getObject('object');
+
   console.log($scope.details);
 });
 
