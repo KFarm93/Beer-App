@@ -4,7 +4,7 @@ var app = angular.module('BeerApp', ['ui.router', 'ngCookies']);
 //
 // });
 
-app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope, $state){
+app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope, $state, productDetails){
   console.log("hi");
   $rootScope.user_name = $cookies.get('username');
   if ($rootScope.user_name) {
@@ -62,24 +62,31 @@ app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope, $st
        }
      });
    };
-  // service.getDetails = function(id, type, name) {
-  //   return $http ({
-  //     url : '/ind_result',
-  //     params: {
-  //       id: id,
-  //       type: type,
-  //       name: name
-  //     }
-  //   });
-  // };
+
+   service.cellar = function(details, user_id){
+     return $http({
+       url : '/user/cellar',
+       method : "POST",
+       data : {
+         details: details,
+         user_id: user_id
+       }
+     });
+   };
+
   return service;
 });
 
-app.service('productDetails', function($cookies) {
+app.service('productDetails', function($rootScope, $cookies) {
   var productData = {};
   this.saveData = function(data) {
     this.productData = data;
-    $cookies.putObject('object', data.object);
+    if (data.object.breweries) {
+      $cookies.putObject('brewery', data.object.breweries);
+    }
+    data.object.breweries[0] = undefined;
+    $cookies.putObject('beer', data.object);
+
   };
   this.getData = function(){
     return this.productData;
@@ -186,15 +193,20 @@ app.controller('LoginController', function($scope, BeerAPI, $state, $cookies, $r
      $scope.pass1 = '';
      $scope.loginFail = true;
    });
-
  };
 });
 
-app.controller('BeerDetailsController', function($scope, BeerAPI, $state, $stateParams, productDetails, $cookies) {
-
-  $scope.details = $cookies.getObject('object');
-
-  console.log($scope.details);
+app.controller('BeerDetailsController', function($scope, BeerAPI, $state, $stateParams, productDetails, $rootScope, $cookies) {
+  $scope.details = $cookies.getObject('beer');
+  $scope.brewery = $cookies.getObject('brewery');
+  $scope.finalObject = $cookies.getObject('beer');
+  $scope.finalObject.breweries = $scope.brewery;
+  console.log($cookies.get('users_id'));
+  $scope.cellar = function(){
+    BeerAPI.cellar($scope.finalObject, $cookies.get('users_id')).success(function() {
+      console.log("check cellar");
+    });
+  };
 });
 
 app.config(function($stateProvider, $urlRouterProvider){
