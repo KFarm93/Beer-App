@@ -9,7 +9,7 @@ API_KEY = "2197e5ac270cdce51585dbf484297b1f"
 brewerydb = BreweryDb()
 brewerydb.configure(API_KEY, DEFAULT_BASE_URI)
 
-# db = pg.DB(dbname="Beer-App")
+db = pg.DB(dbname="Beer-App")
 
 app = Flask('beer_trader', static_url_path = '')
 
@@ -35,11 +35,12 @@ def breweryCall(page_num):
 @app.route('/user/signup', methods=["POST"])
 def signup():
    data = request.get_json()
+   print data
    password = data['password']
    salt = bcrypt.gensalt()
    encrypted_password = bcrypt.hashpw(password.encode('utf-8'), salt)
    db.insert (
-       "customer",
+       "users",
        username = data['username'],
        email = data['email'],
        password = encrypted_password,
@@ -54,7 +55,7 @@ def login():
    # print req
    username = req['username']
    password = req['password']
-   query = db.query('select * from customer where username = $1', username).dictresult()[0]
+   query = db.query('select * from users where username = $1', username).dictresult()[0]
    # print query
    stored_enc_pword = query['password']
    del query['password']
@@ -67,7 +68,7 @@ def login():
        # do a query to delete expired auth_token??
        current_date = datetime.datetime.now()
        # db.query('delete token from auth_token where $1 <= token_expires ', current_date)
-       db_token = db.query('select token from auth_token where customer_id = $1',query['id']).dictresult()
+       db_token = db.query('select token from auth_token where users_id = $1',query['id']).dictresult()
        print db_token
 
        if(len(db_token) > 0):
@@ -79,11 +80,11 @@ def login():
            token = uuid.uuid4()
            db.insert('auth_token',{
                'token' : token,
-               'customer_id' : query['id']
+               'users_id' : query['id']
            })
 
        return jsonify({
-       "user" : query,
+       "users" : query,
        "auth_token" :
            token
        })
