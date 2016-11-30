@@ -16,9 +16,9 @@
       <input type="text" ng-model="searchTerm" placeholder="Search">
       <button type="submit">Click it real good</button>
     </form>
-    <a ui-sref="login()" ng-hide="logState"> <button type="button">Login</button></a>
+    <a ui-sref="login" ng-hide="logState"> <button type="button">Login</button></a>
     <a ng-click="logOut()" ng-show="logState"> <button type="button">Logout</button></a>
-    <a ui-sref="signup()" ng-hide="logState"> <button type="button">Signup</button></a>
+    <a ui-sref="signup" ng-hide="logState"> <button type="button">Signup</button></a>
     <p ng-show="logState">Hello, {{user_name}}!</p>
     <ui-view></ui-view>
   </body>
