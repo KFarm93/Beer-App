@@ -19,12 +19,12 @@ def home():
 
 @app.route('/search/<search_term>')
 def beer(search_term):
-    data = brewerydb.search({'q':search_term})
+    data = brewerydb.search({'q':search_term, 'withBreweries':'Y'})
     return jsonify(data)
 
 @app.route('/beers/<page_num>')
 def beerCall(page_num):
-    data = brewerydb.beers({'p':page_num})
+    data = brewerydb.beers({'p':page_num, 'withBreweries':'Y'})
     return jsonify(data)
 
 @app.route('/breweries/<page_num>')
@@ -48,6 +48,30 @@ def signup():
        last_name = data['last_name']
    )
    return "poop"
+
+@app.route('/user/cellar', methods=['POST'])
+def cellar():
+    data = request.get_json()
+    name = data['details']['name']
+    db.insert(
+        "beer",
+        name = data['details']['name'],
+        description = data['details']['description'],
+        image_path = data['details']['labels']['large'],
+        brewery = data['details']['breweries'][0]['name'],
+        style = data['details']['style']['shortName'],
+        abv = data['details']['abv'],
+        ibu = data['details']['style']['ibuMax']
+    )
+    query = db.query('select * from beer where name = $1', data['details']['name']).dictresult()[0]
+    print query['id']
+    db.insert(
+        "beer_in_cellar",
+        user_id = data['user_id'],
+        beer_id = query['id']
+    )
+    return "success"
+
 
 @app.route('/user/login', methods=["POST"])
 def login():
