@@ -8,7 +8,7 @@ app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope, $st
   $rootScope.logOut = function() {
     console.log('logout clicked');
     $cookies.remove('username');
-    $cookies.remove('customer_id');
+    $cookies.remove('users_id');
     $cookies.remove('token');
     $rootScope.user_name = '';
     $rootScope.logState = false;
@@ -160,8 +160,8 @@ app.controller('LoginController', function($scope, BeerAPI, $state, $cookies, $r
      console.log('in userlogin factoryFunction');
      $scope.loginFail = false;
      $cookies.put('token', response.auth_token.token);
-     $cookies.put('customer_id', response.user.id);
-     $cookies.put('username', response.user.username);
+     $cookies.put('users_id', response.users.id);
+     $cookies.put('username', response.users.username);
      $rootScope.logState = true;
      $rootScope.user_name = $cookies.get('username');
      $state.go('home');
