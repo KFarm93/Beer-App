@@ -56,3 +56,7 @@ img {
 .detailsTitle {
   text-align: center;
 }
+.content {
+  display: inline-flex;;
+  float: left;
+}
