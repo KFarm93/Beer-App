@@ -1,7 +1,26 @@
+body {
+  background-color: ghostwhite;
+}
+button {
+  width: 20%;
+}
+@font-face{
+	font-family: 'underwood_champion';
+	/*src: url('WebFont.eot');*/
+	src:
+  /*url('WebFont.eot?#iefix') format('embedded-opentype'),*/
+	     /*url('WebFont.woff') format('woff'),*/
+	     url('fonts/underwood_champion.ttf') format('truetype')
+	     /*url('WebFont.svg#webfont') format('svg');*/
+}
+
+body, p, h1, h2, h3, h4 {
+  font-family: 'underwood_champion';
+}
+
 .extras {
   background-color: #222;
 }
-
 .picSize {
   width: 400px;
 }
@@ -17,23 +36,27 @@
   width: 220px;
 }
 
+
 .flex {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   margin: 10%;
 }
-
 img {
   margin: 10%;
   max-width: 70%;
 }
-
 .block {
   display: block;
   text-align: center;
 }
 
+
 .detailsTitle {
   text-align: center;
+}
+.content {
+  display: inline-flex;;
+  float: left;
 }
