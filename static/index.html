@@ -11,15 +11,15 @@
     <meta charset="utf-8">
     <title>Beer</title>
   </head>
-  <body ng-app="BeerApp">
-    <input type="text" ng-model="searchTerm" placeholder="Search">
-    <a ui-sref="results({search_term: searchTerm})">
-      <button type="button">Click it real good</button>
-    </a>
-    <a ui-sref="login()"> <button type="button">Login</button></a>
-    <a ng-click="logOut()"> <button type="button">Logout</button></a>
-    <a ui-sref="signup()"> <button type="button">Signup</button></a>
-
+  <body ng-app="BeerApp" ng-controller="HomeController">
+    <form ng-submit="searchFunction(searchTerm)">
+      <input type="text" ng-model="searchTerm" placeholder="Search">
+      <button type="submit">Click it real good</button>
+    </form>
+    <a ui-sref="login()" ng-hide="logState"> <button type="button">Login</button></a>
+    <a ng-click="logOut()" ng-show="logState"> <button type="button">Logout</button></a>
+    <a ui-sref="signup()" ng-hide="logState"> <button type="button">Signup</button></a>
+    <p ng-show="logState">Hello, {{user_name}}!</p>
     <ui-view></ui-view>
   </body>
 </html>
