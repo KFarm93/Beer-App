@@ -85,6 +85,14 @@ app.service('productDetails', function($rootScope, $cookies) {
       $cookies.putObject('brewery', data.object.breweries);
     }
     data.object.breweries[0] = undefined;
+    if (!data.object.labels) {
+      data.object.labels = {large: 'iStock_beer.jpg'};
+      $cookies.putObject('beer', data.object);
+    }
+
+    if (!data.object.description) {
+      data.object.description = 'Sorry, no description available.';
+    }
     $cookies.putObject('beer', data.object);
 
   };
@@ -202,6 +210,7 @@ app.controller('BeerDetailsController', function($scope, BeerAPI, $state, $state
   $scope.finalObject = $cookies.getObject('beer');
   $scope.finalObject.breweries = $scope.brewery;
   console.log($cookies.get('users_id'));
+  console.log($cookies.getObject('beer'));
   $scope.cellar = function(){
     BeerAPI.cellar($scope.finalObject, $cookies.get('users_id')).success(function() {
       console.log("check cellar");
