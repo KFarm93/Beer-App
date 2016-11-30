@@ -52,11 +52,14 @@ img {
   text-align: center;
 }
 
-
 .detailsTitle {
   text-align: center;
 }
 .content {
   display: inline-flex;;
   float: left;
+}
+
+body {
+  background: linear-gradient(ghostwhite, antiquewhite);
 }
