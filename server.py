@@ -182,7 +182,10 @@ def userTrade():
 def userBeer(user_id):
     results = db.query('select * from beer inner join beer_in_cellar on beer.id = beer_id where user_id = $1', user_id).dictresult()
     print "Dem's the results: ", results
-    return jsonify(results)
+    if len(results) < 1:
+        return "This user doesn't have any beer in their cellar. :("
+    else:
+        return jsonify(results)
 
 if __name__ == '__main__':
     app.run(debug=True)
