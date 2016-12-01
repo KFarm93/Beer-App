@@ -3,6 +3,6 @@
 </div>
 <ul>
   <li ng-repeat = "user in users">
-    <a ui-sref="userDetails">{{user.username}}</a>
+    <a href ng-click="userDetails(user)">{{user.username}}</a>
   </li>
 </ul>

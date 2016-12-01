@@ -100,8 +100,13 @@ app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope, $st
      return $http({
        url: '/members'
       //  method: 'GET',
-     })
-   }
+    });
+  };
+    service.userBeers = function(user_id) {
+      return $http({
+        url: '/user/beer/' + user_id
+      });
+    };
 
   return service;
 });
@@ -268,20 +273,28 @@ app.controller('BeerDetailsController', function($scope, BeerAPI, $state, $state
 
 app.controller('UsersController', function($scope, BeerAPI, $state, $stateParams, productDetails, $rootScope, $cookies) {
   BeerAPI.users().success(function(results) {
-    console.log(results);
     $scope.users = results;
-  })
-  $scope.userDetails = function() {
-    console.log("click check");
+  });
+  $scope.userDetails = function(user) {
+    $cookies.putObject('user', user);
+    $state.go('userDetails');
 
-  }
-})
+  };
+});
+
+app.controller('UserDetailsController', function($scope, BeerAPI, $state, $cookies) {
+  $scope.user = $cookies.getObject('user');
+  console.log("$scope.user.id: ", $scope.user.id);
+  BeerAPI.userBeers($scope.user.id).success(function(results) {
+    console.log(results);
+  });
+});
 
 app.config(function($stateProvider, $urlRouterProvider){
   $stateProvider
     .state({
-      name : 'home',
-      url : '/home',
+      name: 'home',
+      url: '/home',
       controller: 'HomeController'
     })
     .state({
@@ -315,27 +328,33 @@ app.config(function($stateProvider, $urlRouterProvider){
       controller: 'SearchController'
     })
     .state({
-      name : 'signup',
-      url : '/user/signup',
-      templateUrl : 'signup.html',
-      controller : 'SignUpController'
+      name: 'signup',
+      url: '/user/signup',
+      templateUrl: 'signup.html',
+      controller: 'SignUpController'
     })
     .state({
-      name : 'login',
-      url : '/user/login',
+      name: 'login',
+      url: '/user/login',
       templateUrl: 'login.html',
       controller: 'LoginController'
     })
     .state({
-      name :'users',
-      url :'/members',
+      name:'users',
+      url:'/members',
       templateUrl: 'users.html',
-      controller : 'UsersController'
+      controller: 'UsersController'
     })
     .state({
-      name : 'details',
-      url : '/details',
+      name: 'details',
+      url: '/details',
       templateUrl: 'details.html',
       controller: 'BeerDetailsController'
-  });
+  })
+    .state({
+      name: 'userDetails',
+      url: 'user/details',
+      templateUrl: 'profile.html',
+      controller: 'UserDetailsController'
+    });
 });
