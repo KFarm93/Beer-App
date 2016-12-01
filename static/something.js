@@ -109,6 +109,25 @@ app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope, $st
       });
     };
 
+    service.justGiveMeTheShitIWant = function(user_id) {
+      return $http({
+        url: '/user/beerIDandName/' + user_id
+      });
+    };
+
+    service.trade = function(user_id_one, user_id_two, beer_user_one, beer_user_two) {
+      return $http({
+        url: '/user/trade',
+        method: 'POST',
+        data: {
+          user_id_one: user_id_one,
+          user_id_two: user_id_two,
+          beer_user_one: beer_user_one,
+          beer_user_two: beer_user_two
+        }
+      });
+    };
+
   return service;
 });
 
@@ -262,6 +281,12 @@ app.controller('LoginController', function($scope, BeerAPI, $state, $cookies, $r
  };
 });
 
+app.controller('UserProfController', function($scope, BeerAPI, $cookies) {
+  BeerAPI.userBeers($cookies.get('users_id')).success(function(results) {
+    $scope.userCellar = results;
+  });
+});
+
 app.controller('BeerDetailsController', function($scope, BeerAPI, $state, $stateParams, productDetails, $rootScope, $cookies) {
   $scope.details = $cookies.getObject('beer');
   $scope.brewery = $cookies.getObject('brewery');
@@ -288,24 +313,47 @@ app.controller('UserDetailsController', function($scope, BeerAPI, $state, $cooki
   $scope.user = $cookies.getObject('user');
   BeerAPI.userBeers($scope.user.id).success(function(results) {
     $scope.results = results;
-
     console.log("not in beerDetails: ", $scope.result);
     $scope.returnBeers = true;
     $scope.getBeerDetails = function(result) {
       $cookies.putObject('beer', result);
-      console.log("the cookie: ", $cookies.getObject('beer'));
       $state.go('detailsFromCellar');
     };
     if ($scope.results === "This user doesn't have any beer in their cellar. :(") {
       $scope.returnBeers = false;
     }
   });
+
+  $scope.tradeBeer = function(result) {
+    $cookies.putObject('beerTrade', result);
+    $cookies.put('user_id_two', $scope.user.id);
+    $state.go('trade');
+  };
 });
 
 app.controller('DetailsFromCellarController', function($scope, $cookies, $state) {
   $scope.deets = $cookies.getObject('beer');
   $scope.cellar = function() {
     $state.go('userDetails');
+  };
+});
+
+app.controller('TradeController', function($scope, $cookies, BeerAPI) {
+  console.log($cookies.get('users_id'));
+  console.log($cookies.getObject('beerTrade'));
+  $scope.beer_user_two = $cookies.getObject('beerTrade');
+  console.log($cookies.get('user_id_two'));
+  BeerAPI.justGiveMeTheShitIWant($cookies.get('users_id')).success(function(results) {
+    $scope.user_one_beercellar = results;
+  });
+
+  $scope.user_id_one = $cookies.get('users_id');
+  $scope.user_id_two = $cookies.get('user_id_two');
+
+  $scope.initiateTrade = function() {
+    BeerAPI.trade($scope.user_id_one, $scope.user_id_two, $scope.beer_user_one, $scope.beer_user_two.beer_id).success(function(results) {
+      console.log(results);
+    });
   };
 });
 
@@ -359,6 +407,12 @@ app.config(function($stateProvider, $urlRouterProvider){
       controller: 'LoginController'
     })
     .state({
+      name: 'user_profile',
+      url: '/user/profile',
+      templateUrl: 'user_profile.html',
+      controller: 'UserProfController'
+    })
+    .state({
       name:'users',
       url:'/members',
       templateUrl: 'users.html',
@@ -372,14 +426,20 @@ app.config(function($stateProvider, $urlRouterProvider){
   })
     .state({
       name: 'userDetails',
-      url: 'user/details',
+      url: '/user/details',
       templateUrl: 'profile.html',
       controller: 'UserDetailsController'
     })
     .state({
       name: 'detailsFromCellar',
-      url: 'cellar/details',
+      url: '/cellar/details',
       templateUrl: 'details-from-cellar.html',
       controller: 'DetailsFromCellarController'
+    })
+    .state({
+      name: 'trade',
+      url: '/trade/',
+      templateUrl: 'trade.html',
+      controller: 'TradeController'
     });
 });

@@ -1,8 +1,11 @@
 <ul ng-if="returnBeers">
   <li ng-repeat="result in results">
-  <img src="{{result.image_path}}" height="300px">
-  <a href ng-click="getBeerDetails(result)">{{result.name}}</a></li>
+    <img src="{{result.image_path}}" height="300px">
+    <a href ng-click="getBeerDetails(result)">{{result.name}}</a>
+    <button type="button" ng-click="tradeBeer(result)">Trade for this beer</button>
+  </li>
 </ul>
+
 <h1 ng-if="!returnBeers">
   {{results}}
 </h1>
