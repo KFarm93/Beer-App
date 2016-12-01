@@ -67,22 +67,21 @@ def cellar():
     data = request.get_json()
     name = data['details']['name']
 
-    # Query to find matches in user_owns_beer table, to stop duplicate matches
-    query = db.query('select * from user_owns_beer inner join users on $1 = user_owns_beer.users_id inner join beer on name.beer = $1', data['user_id'], data['details']['name']).dictresult()
+    query = db.query('select * from beer where name = $1', data['details']['name']).dictresult()
 
-    if query:
-        return "Beer already in cellar"
+    # Filters out adding beer more than once to the beer table
+    if len(query) < 1:
+        db.insert(
+            "beer",
+            name = data['details']['name'],
+            description = data['details']['description'],
+            image_path = data['details']['labels']['large'],
+            brewery = data['details']['breweries'][0]['name'],
+            style = data['details']['style']['shortName'],
+            abv = data['details']['abv'],
+            ibu = data['details']['style']['ibuMax']
+        )
 
-    db.insert(
-        "beer",
-        name = data['details']['name'],
-        description = data['details']['description'],
-        image_path = data['details']['labels']['large'],
-        brewery = data['details']['breweries'][0]['name'],
-        style = data['details']['style']['shortName'],
-        abv = data['details']['abv'],
-        ibu = data['details']['style']['ibuMax']
-    )
     query = db.query('select * from beer where name = $1', data['details']['name']).dictresult()[0]
     print query['id']
     db.insert(
