@@ -59,8 +59,8 @@ Beer App is .... Many writers struggle to write sentences of appropriate length.
 
 #### **Frameworks**
   * Flask
-  *
-  *
+  * add more...
+  * add more ...
 
 #### API
   * [BreweryDB.com](http://www.brewerydb.com/)
