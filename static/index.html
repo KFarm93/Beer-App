@@ -14,7 +14,7 @@
   <body ng-app="BeerApp" ng-controller="HomeController">
     <form ng-submit="searchFunction(searchTerm, filter)">
       <input type="text" ng-model="searchTerm" placeholder="Search">
-      <select ng-init="filter=both" ng-model="filter">
+      <select ng-init="filter='both'" ng-model="filter">
         <option value="both">Breweries and Beers</option>
         <option value="beers">Just Beers</option>
         <option value="breweries">Just Breweries</option>
