@@ -263,6 +263,7 @@ app.controller('LoginController', function($scope, BeerAPI, $state, $cookies, $r
 });
 
 app.controller('BeerDetailsController', function($scope, BeerAPI, $state, $stateParams, productDetails, $rootScope, $cookies) {
+  $scope.details = $cookies.getObject('beer');
   $scope.brewery = $cookies.getObject('brewery');
   $scope.finalObject = $cookies.getObject('beer');
   $scope.finalObject.breweries = $scope.brewery;
