@@ -17,10 +17,23 @@ app = Flask('beer_trader', static_url_path = '')
 def home():
     return app.send_static_file('index.html')
 
-@app.route('/search/<search_term>')
-def beer(search_term):
-    data = brewerydb.search({'q':search_term, 'withBreweries':'Y'})
+@app.route('/search/both/<search_term>')
+def beerBoth(search_term):
+    # data = brewerydb.search({'q':search_term, 'type': 'beer'})
+    # data = brewerydb.search({'q':search_term, 'type': 'brewery'})
+    data = brewerydb.search({'q':search_term, 'withBreweries': 'Y'})
     return jsonify(data)
+
+@app.route('/search/beers/<search_term>')
+def beerBeer(search_term):
+    data = brewerydb.search({'q':search_term, 'type': 'beer'})
+    return jsonify(data)
+
+@app.route('/search/breweries/<search_term>')
+def beerBrewery(search_term):
+    data = brewerydb.search({'q':search_term, 'type': 'brewery'})
+    return jsonify(data)
+
 
 @app.route('/beers/<page_num>')
 def beerCall(page_num):
