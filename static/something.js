@@ -5,7 +5,6 @@ var app = angular.module('BeerApp', ['ui.router', 'ngCookies']);
 // });
 
 app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope, $state, productDetails){
-  console.log("hi");
   $rootScope.user_name = $cookies.get('username');
   if ($rootScope.user_name) {
     $rootScope.logState = true;
@@ -25,7 +24,6 @@ app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope, $st
   };
 
   $rootScope.logOut = function() {
-    console.log('logout clicked');
     $cookies.remove('username');
     $cookies.remove('users_id');
     $cookies.remove('token');
@@ -104,19 +102,26 @@ app.service('productDetails', function($rootScope, $cookies) {
   var productData = {};
   this.saveData = function(data) {
     this.productData = data;
-    if (data.object.breweries) {
-      $cookies.putObject('brewery', data.object.breweries);
-    }
-    data.object.breweries[0] = undefined;
-    if (!data.object.labels) {
-      data.object.labels = {large: 'iStock_beer.jpg'};
+    
+    if (data.object.type === 'brewery') {
       $cookies.putObject('beer', data.object);
     }
 
-    if (!data.object.description) {
-      data.object.description = 'Sorry, no description available.';
+    else {
+      if (data.object.breweries) {
+        $cookies.putObject('brewery', data.object.breweries);
+      }
+      data.object.breweries[0] = undefined;
+      if (!data.object.labels) {
+        data.object.labels = {large: 'iStock_beer.jpg'};
+        $cookies.putObject('beer', data.object);
+      }
+
+      if (!data.object.description) {
+        data.object.description = 'Sorry, no description available.';
+      }
+      $cookies.putObject('beer', data.object);
     }
-    $cookies.putObject('beer', data.object);
 
   };
   this.getData = function(){
@@ -170,12 +175,9 @@ app.controller('BreweryController', function($scope, BeerAPI, $cookies, $rootSco
 
 app.controller('SearchController', function($scope, BeerAPI, $cookies, $rootScope, $stateParams, $state, productDetails) {
     $scope.search_term = $stateParams.search_term;
-    console.log($scope.search_term);
     if ($scope.filter === "both") {
       BeerAPI.displayResults($scope.search_term).success(function(results) {
-      console.log("These are the results:", results);
       $scope.results = results.data;
-      console.log("$scope.results:", $scope.results);
       $scope.getBeerDetails = function(result) {
           productDetails.saveData({
             object: result
@@ -186,9 +188,7 @@ app.controller('SearchController', function($scope, BeerAPI, $cookies, $rootScop
   }
   else if ($scope.filter === "beers") {
     BeerAPI.displayBeerResults($scope.search_term).success(function(results) {
-    console.log("These are the results:", results);
     $scope.results = results.data;
-    console.log("$scope.results:", $scope.results);
     $scope.getBeerDetails = function(result) {
         productDetails.saveData({
           object: result
@@ -199,9 +199,7 @@ app.controller('SearchController', function($scope, BeerAPI, $cookies, $rootScop
 }
   else {
     BeerAPI.displayBreweriesResults($scope.search_term).success(function(results) {
-    console.log("These are the results:", results);
     $scope.results = results.data;
-    console.log("$scope.results:", $scope.results);
     $scope.getBeerDetails = function(result) {
         productDetails.saveData({
           object: result
@@ -222,10 +220,7 @@ app.controller('SignUpController', function($scope, $state, BeerAPI, $rootScope)
      'password': $scope.pass1,
      'password2': $scope.pass2
    };
-   console.log('check1');
    BeerAPI.signUp(userInfo).success(function() {
-     console.log(userInfo);
-     console.log('got to signUp service');
      $state.go('home');
    });
  };
@@ -233,22 +228,18 @@ app.controller('SignUpController', function($scope, $state, BeerAPI, $rootScope)
 
 app.controller('LoginController', function($scope, BeerAPI, $state, $cookies, $rootScope){
   $scope.loginFail = false;
-  console.log('test');
   $scope.submitEnterSite = function() {
    BeerAPI.userLogin($scope.username, $scope.pass1).success(function(response) {
-     console.log('in userlogin factoryFunction');
      $scope.loginFail = false;
      $cookies.put('token', response.auth_token.token);
      $cookies.put('users_id', response.users.id);
      $cookies.put('username', response.users.username);
      $rootScope.logState = true;
      $rootScope.user_name = $cookies.get('username');
-     console.log($rootScope.user_name);
      $state.go('home');
 
 
    }).error(function(){
-     console.log('failed');
      $scope.username = '';
      $scope.pass1 = '';
      $scope.loginFail = true;
@@ -261,11 +252,8 @@ app.controller('BeerDetailsController', function($scope, BeerAPI, $state, $state
   $scope.brewery = $cookies.getObject('brewery');
   $scope.finalObject = $cookies.getObject('beer');
   $scope.finalObject.breweries = $scope.brewery;
-  console.log($cookies.get('users_id'));
-  console.log($cookies.getObject('beer'));
   $scope.cellar = function(){
     BeerAPI.cellar($scope.finalObject, $cookies.get('users_id')).success(function() {
-      console.log("check cellar");
     });
   };
 });
