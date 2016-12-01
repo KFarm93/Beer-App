@@ -1,5 +1,12 @@
 body {
   background-color: ghostwhite;
+  position: absolute;
+  top: 50px;
+}
+.wrapper {
+  width: auto;
+  overflow: auto;
+  background-color: teal;
 }
 .fixed-nav-bar {
   position: fixed;
@@ -7,13 +14,46 @@ body {
   left: 0;
   z-index: 9999;
   width: 100%;
-  height: 30px;
-  background-color: #00a087;
+  height: 70px;
+  background-color: transparent;
 }
+.loginButtons {
+  float: right;
+  display: inline-block;
+  margin-top: 10px;
+  margin-right: 1%;
+  text-align: center;
 }
+.loginButtons button {
+  text-align: center;
+}
+
+.hello {
+  float: right;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+#loginForm {
+  margin-left: 3%;
+  float: left;
+}
+
+.navbarContainer {
+  display: inline-block;
+  margin-top: 10px;
+}
+
 button {
-  width: 5%;
+  width: 10%;
+  height: 15%;
 }
+
+.wrapper button {
+  width: 30%;
+  height: 10%;
+}
+
 @font-face{
 	font-family: 'underwood_champion';
 	/*src: url('WebFont.eot');*/
@@ -24,7 +64,7 @@ button {
 	     /*url('WebFont.svg#webfont') format('svg');*/
 }
 
-body, p, h1, h2, h3, h4 {
+html, p, h1, h2, h3, h4 {
   font-family: 'underwood_champion';
 }
 
@@ -46,12 +86,17 @@ body, p, h1, h2, h3, h4 {
   width: 220px;
 }
 
+#signUpButton {
+  width: 22%;
+  height: 10%;
+  font-size: 10px;
+}
 
 .flex {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 10%;
+  margin: 5%;
 }
 img {
   margin: 10%;
@@ -70,6 +115,37 @@ img {
   float: left;
 }
 
-body {
+button {
+   background: #65a9d7;
+   background: -webkit-gradient(linear, left top, left bottom, from(#104161), to(#65a9d7));
+   background: -webkit-linear-gradient(top, #104161, #65a9d7);
+   background: -moz-linear-gradient(top, #104161, #65a9d7);
+   background: -ms-linear-gradient(top, #104161, #65a9d7);
+   background: -o-linear-gradient(top, #104161, #65a9d7);
+   padding: 3px 7px;
+   -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+   border-radius: 8px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   color: white;
+   font-size: 15px;
+   font-family: Helvetica, Arial, Sans-Serif;
+   text-decoration: none;
+   vertical-align: middle;
+   }
+button:hover {
+   border-top-color: #345063;
+   background: #345063;
+   color: #ccc;
+   }
+button:active {
+   border-top-color: #1b435e;
+   background: #1b435e;
+   }
+
+/*body {
   background: linear-gradient(ghostwhite, antiquewhite);
-}
+}*/
