@@ -12,6 +12,9 @@
     <title>Beer</title>
   </head>
   <body ng-app="BeerApp" ng-controller="HomeController">
+    <nav class="fixed-nav-bar">
+
+    
     <form ng-submit="searchFunction(searchTerm, filter)">
       <input type="text" ng-model="searchTerm" placeholder="Search">
       <select ng-init="filter='both'" ng-model="filter">
@@ -25,6 +28,7 @@
     <a ng-click="logOut()" ng-show="logState"> <button type="button">Logout</button></a>
     <a ui-sref="users"> <button type="button">Users</button></a>
     <a ui-sref="signup" ng-hide="logState"> <button type="button">Signup</button></a>
+    </nav>
     <p ng-show="logState">Hello, {{user_name}}!</p>
     <ui-view></ui-view>
   </body>
