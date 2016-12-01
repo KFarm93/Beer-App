@@ -102,6 +102,7 @@ app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope, $st
       //  method: 'GET',
     });
   };
+
     service.userBeers = function(user_id) {
       return $http({
         url: '/user/beer/' + user_id
@@ -284,9 +285,8 @@ app.controller('UsersController', function($scope, BeerAPI, $state, $stateParams
 
 app.controller('UserDetailsController', function($scope, BeerAPI, $state, $cookies) {
   $scope.user = $cookies.getObject('user');
-  console.log("$scope.user.id: ", $scope.user.id);
   BeerAPI.userBeers($scope.user.id).success(function(results) {
-    console.log(results);
+    $scope.results = results;
   });
 });
 
