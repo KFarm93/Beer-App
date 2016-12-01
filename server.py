@@ -60,7 +60,16 @@ def signup():
        first_name = data['first_name'],
        last_name = data['last_name']
    )
-   return "poop"
+   return "success"
+
+
+# list all users
+@app.route('/members')
+def users():
+    listAllUsers = db.query("select * from users").dictresult()
+    print listAllUsers
+    return jsonify(listAllUsers)
+
 
 @app.route('/user/cellar', methods=['POST'])
 def cellar():
