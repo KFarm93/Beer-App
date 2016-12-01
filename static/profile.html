@@ -1,6 +1,7 @@
-<ul ng-if="returnBeers">
+<ul style="list-style-type:none" ng-if="returnBeers">
   <li ng-repeat="result in results">
-  <img src="{{result.image_path}}" height="300px">
+  <img src="{{result.image_path}}" height="200px" width="200px">
+  <br>
   <a href ng-click="getBeerDetails(result)">{{result.name}}</a></li>
 </ul>
 <h1 ng-if="!returnBeers">
