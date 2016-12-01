@@ -1,0 +1,13 @@
+<!-- <div class="">
+  <h3>Beer you want: </h3>
+  <p>{{beer_user_two.name}}</p>
+  <img src="{{beer_user_two.image_path}}">
+</div> -->
+<div class="">
+  <h3>Choose a beer to trade</h3>
+  <select ng-model="beer_user_one">
+    <option ng-repeat="beer in user_one_beercellar" value="{{beer.beer_id}}">{{beer.name}}</option>
+  </select>
+</div>
+
+<button type="button" ng-click="initiateTrade()">Trade</button>
