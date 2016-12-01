@@ -17,10 +17,23 @@ app = Flask('beer_trader', static_url_path = '')
 def home():
     return app.send_static_file('index.html')
 
-@app.route('/search/<search_term>')
-def beer(search_term):
-    data = brewerydb.search({'q':search_term, 'withBreweries':'Y'})
+@app.route('/search/both/<search_term>')
+def beerBoth(search_term):
+    # data = brewerydb.search({'q':search_term, 'type': 'beer'})
+    # data = brewerydb.search({'q':search_term, 'type': 'brewery'})
+    data = brewerydb.search({'q':search_term, 'withBreweries': 'Y'})
     return jsonify(data)
+
+@app.route('/search/beers/<search_term>')
+def beerBeer(search_term):
+    data = brewerydb.search({'q':search_term, 'type': 'beer', 'withBreweries': 'Y'})
+    return jsonify(data)
+
+@app.route('/search/breweries/<search_term>')
+def beerBrewery(search_term):
+    data = brewerydb.search({'q':search_term, 'type': 'brewery'})
+    return jsonify(data)
+
 
 @app.route('/beers/<page_num>')
 def beerCall(page_num):
@@ -53,6 +66,13 @@ def signup():
 def cellar():
     data = request.get_json()
     name = data['details']['name']
+
+    # Query to find matches in user_owns_beer table, to stop duplicate matches
+    query = db.query('select * from user_owns_beer inner join users on $1 = user_owns_beer.users_id inner join beer on name.beer = $1', data['user_id'], data['details']['name']).dictresult()
+
+    if query:
+        return "Beer already in cellar"
+
     db.insert(
         "beer",
         name = data['details']['name'],

@@ -10,9 +10,18 @@ app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope, $st
   if ($rootScope.user_name) {
     $rootScope.logState = true;
   }
-  $rootScope.searchFunction = function(searched) {
-    console.log("This is searched:", searched);
+
+
+  $rootScope.searchFunction = function(searched, filter) {
+    if (filter === "both") {
     $state.go('results', {search_term: searched});
+    }
+    else if (filter === "beers") {
+      $state.go('beerResults', {search_term: searched});
+    }
+    else {
+      $state.go('breweryResults', {search_term: searched});
+    }
   };
 
   $rootScope.logOut = function() {
@@ -24,6 +33,7 @@ app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope, $st
     $rootScope.logState = false;
     $state.go('home');
   };
+
   var service = {};
 
   service.displayBeers = function(page_num){
@@ -40,9 +50,22 @@ app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope, $st
 
   service.displayResults = function(search_term) {
     return $http({
-      url: '/search/' + search_term
+      url: '/search/both/' + search_term
     });
   };
+
+  service.displayBeerResults = function(search_term) {
+    return $http({
+      url: '/search/beers/' + search_term
+    });
+  };
+
+  service.displayBreweriesResults = function(search_term) {
+    return $http({
+      url: '/search/breweries/' + search_term
+    });
+  };
+
   service.signUp = function(userInfo) {
    var url = '/user/signup';
      return $http({
@@ -85,6 +108,14 @@ app.service('productDetails', function($rootScope, $cookies) {
       $cookies.putObject('brewery', data.object.breweries);
     }
     data.object.breweries[0] = undefined;
+    if (!data.object.labels) {
+      data.object.labels = {large: 'iStock_beer.jpg'};
+      $cookies.putObject('beer', data.object);
+    }
+
+    if (!data.object.description) {
+      data.object.description = 'Sorry, no description available.';
+    }
     $cookies.putObject('beer', data.object);
 
   };
@@ -140,9 +171,11 @@ app.controller('BreweryController', function($scope, BeerAPI, $cookies, $rootSco
 app.controller('SearchController', function($scope, BeerAPI, $cookies, $rootScope, $stateParams, $state, productDetails) {
     $scope.search_term = $stateParams.search_term;
     console.log($scope.search_term);
-    BeerAPI.displayResults($scope.search_term).success(function(results) {
+    if ($scope.filter === "both") {
+      BeerAPI.displayResults($scope.search_term).success(function(results) {
       console.log("These are the results:", results);
       $scope.results = results.data;
+      console.log("$scope.results:", $scope.results);
       $scope.getBeerDetails = function(result) {
           productDetails.saveData({
             object: result
@@ -150,6 +183,33 @@ app.controller('SearchController', function($scope, BeerAPI, $cookies, $rootScop
         $state.go('details');
       };
     });
+  }
+  else if ($scope.filter === "beers") {
+    BeerAPI.displayBeerResults($scope.search_term).success(function(results) {
+    console.log("These are the results:", results);
+    $scope.results = results.data;
+    console.log("$scope.results:", $scope.results);
+    $scope.getBeerDetails = function(result) {
+        productDetails.saveData({
+          object: result
+        });
+      $state.go('details');
+    };
+  });
+}
+  else {
+    BeerAPI.displayBreweriesResults($scope.search_term).success(function(results) {
+    console.log("These are the results:", results);
+    $scope.results = results.data;
+    console.log("$scope.results:", $scope.results);
+    $scope.getBeerDetails = function(result) {
+        productDetails.saveData({
+          object: result
+        });
+      $state.go('details');
+    };
+  });
+  }
 });
 
 app.controller('SignUpController', function($scope, $state, BeerAPI, $rootScope) {
@@ -202,6 +262,7 @@ app.controller('BeerDetailsController', function($scope, BeerAPI, $state, $state
   $scope.finalObject = $cookies.getObject('beer');
   $scope.finalObject.breweries = $scope.brewery;
   console.log($cookies.get('users_id'));
+  console.log($cookies.getObject('beer'));
   $scope.cellar = function(){
     BeerAPI.cellar($scope.finalObject, $cookies.get('users_id')).success(function() {
       console.log("check cellar");
@@ -230,7 +291,19 @@ app.config(function($stateProvider, $urlRouterProvider){
     })
     .state({
       name: 'results',
-      url: '/search/{search_term}',
+      url: '/search/both/{search_term}',
+      templateUrl: 'results.html',
+      controller: 'SearchController'
+    })
+    .state({
+      name: 'breweryResults',
+      url: '/search/breweries/{search_term}',
+      templateUrl: 'results.html',
+      controller: 'SearchController'
+    })
+    .state({
+      name: 'beerResults',
+      url: '/search/beers/{search_term}',
       templateUrl: 'results.html',
       controller: 'SearchController'
     })
