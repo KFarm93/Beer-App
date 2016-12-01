@@ -95,6 +95,14 @@ app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope, $st
      });
    };
 
+   service.users = function() {
+     console.log('check');
+     return $http({
+       url: '/members'
+      //  method: 'GET',
+     })
+   }
+
   return service;
 });
 
@@ -102,7 +110,7 @@ app.service('productDetails', function($rootScope, $cookies) {
   var productData = {};
   this.saveData = function(data) {
     this.productData = data;
-    
+
     if (data.object.type === 'brewery') {
       $cookies.putObject('beer', data.object);
     }
@@ -258,6 +266,17 @@ app.controller('BeerDetailsController', function($scope, BeerAPI, $state, $state
   };
 });
 
+app.controller('UsersController', function($scope, BeerAPI, $state, $stateParams, productDetails, $rootScope, $cookies) {
+  BeerAPI.users().success(function(results) {
+    console.log(results);
+    $scope.users = results;
+  })
+  $scope.userDetails = function() {
+    console.log("click check");
+
+  }
+})
+
 app.config(function($stateProvider, $urlRouterProvider){
   $stateProvider
     .state({
@@ -306,6 +325,12 @@ app.config(function($stateProvider, $urlRouterProvider){
       url : '/user/login',
       templateUrl: 'login.html',
       controller: 'LoginController'
+    })
+    .state({
+      name :'users',
+      url :'/members',
+      templateUrl: 'users.html',
+      controller : 'UsersController'
     })
     .state({
       name : 'details',
