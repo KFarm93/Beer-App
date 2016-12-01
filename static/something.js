@@ -102,6 +102,7 @@ app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope, $st
       //  method: 'GET',
     });
   };
+
     service.userBeers = function(user_id) {
       return $http({
         url: '/user/beer/' + user_id
@@ -141,6 +142,7 @@ app.service('productDetails', function($rootScope, $cookies) {
     return this.productData;
   };
 });
+
 
 // Test controller
 
@@ -261,7 +263,6 @@ app.controller('LoginController', function($scope, BeerAPI, $state, $cookies, $r
 });
 
 app.controller('BeerDetailsController', function($scope, BeerAPI, $state, $stateParams, productDetails, $rootScope, $cookies) {
-  $scope.details = $cookies.getObject('beer');
   $scope.brewery = $cookies.getObject('brewery');
   $scope.finalObject = $cookies.getObject('beer');
   $scope.finalObject.breweries = $scope.brewery;
@@ -282,12 +283,29 @@ app.controller('UsersController', function($scope, BeerAPI, $state, $stateParams
   };
 });
 
-app.controller('UserDetailsController', function($scope, BeerAPI, $state, $cookies) {
+app.controller('UserDetailsController', function($scope, BeerAPI, $state, $cookies, productDetails) {
   $scope.user = $cookies.getObject('user');
-  console.log("$scope.user.id: ", $scope.user.id);
   BeerAPI.userBeers($scope.user.id).success(function(results) {
-    console.log(results);
+    $scope.results = results;
+
+    console.log("not in beerDetails: ", $scope.result);
+    $scope.returnBeers = true;
+    $scope.getBeerDetails = function(result) {
+      $cookies.putObject('beer', result);
+      console.log("the cookie: ", $cookies.getObject('beer'));
+      $state.go('detailsFromCellar');
+    };
+    if ($scope.results === "This user doesn't have any beer in their cellar. :(") {
+      $scope.returnBeers = false;
+    }
   });
+});
+
+app.controller('DetailsFromCellarController', function($scope, $cookies, $state) {
+  $scope.deets = $cookies.getObject('beer');
+  $scope.cellar = function() {
+    $state.go('userDetails');
+  };
 });
 
 app.config(function($stateProvider, $urlRouterProvider){
@@ -356,5 +374,11 @@ app.config(function($stateProvider, $urlRouterProvider){
       url: 'user/details',
       templateUrl: 'profile.html',
       controller: 'UserDetailsController'
+    })
+    .state({
+      name: 'detailsFromCellar',
+      url: 'cellar/details',
+      templateUrl: 'details-from-cellar.html',
+      controller: 'DetailsFromCellarController'
     });
 });
