@@ -26,7 +26,7 @@ def beerBoth(search_term):
 
 @app.route('/search/beers/<search_term>')
 def beerBeer(search_term):
-    data = brewerydb.search({'q':search_term, 'type': 'beer'})
+    data = brewerydb.search({'q':search_term, 'type': 'beer', 'withBreweries': 'Y'})
     return jsonify(data)
 
 @app.route('/search/breweries/<search_term>')
@@ -66,6 +66,12 @@ def signup():
 def cellar():
     data = request.get_json()
     name = data['details']['name']
+
+    # Query to find matches in user_owns_beer table, to stop duplicate matches
+    query = db.query('select * from user_owns_beer inner join users on $1 = user_owns_beer.users_id inner join beer on name.beer = $1', data['user_id'], data['details']['name']).dictresult()
+
+    if query:
+        return "Beer already in cellar"
 
     db.insert(
         "beer",
