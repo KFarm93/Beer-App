@@ -143,5 +143,42 @@ def login():
    else:
        return "login failed", 401
 
+@app.route('/user/trade', methods=["POST"])
+def userTrade():
+    # This is the data I need sent to this route from the JS
+    req = request.get_json()
+    user_id_one = req['user_id_one']
+    user_id_two = req['user_id_two']
+    beer_user_one = req['beer_user_one']
+    beer_user_two = req['beer_user_two']
+
+    # Deletes entries for each user, since they no longer own the beer
+    queryOne = db.query('delete * from beer_in_cellar where %s = user_id and %s = beer_id' % (user_id_one, beer_user_one))
+    queryTwo = db.query('delete * from beer_in_cellar where %s = user_id and %s = beer_id' % (user_id_two, beer_user_two))
+
+    # Inserts the beer being traded into each others cellars
+    db.insert(
+        "beer_in_cellar",
+        user_id= user_id_one,
+        beer_id= beer_user_two
+    )
+
+    db.insert(
+        "beer_in_cellar",
+        user_id= user_id_two,
+        beer_id= beer_user_one
+    )
+
+    # Inserts the Original values into the users_trade_beer table, showing the trade that occured
+    db.insert(
+        "users_trade_beer",
+        user_one= user_id_one,
+        user_two= user_id_two,
+        user_one_beer= beer_user_one,
+        user_two_beer= beer_user_two
+    )
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
