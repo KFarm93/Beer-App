@@ -153,8 +153,8 @@ def userTrade():
     beer_user_two = req['beer_user_two']
 
     # Deletes entries for each user, since they no longer own the beer
-    queryOne = db.query('delete * from beer_in_cellar where %s = user_id and %s = beer_id' % (user_id_one, beer_user_one))
-    queryTwo = db.query('delete * from beer_in_cellar where %s = user_id and %s = beer_id' % (user_id_two, beer_user_two))
+    queryOne = db.query('delete from beer_in_cellar where %s = user_id and %s = beer_id' % (user_id_one, beer_user_one))
+    queryTwo = db.query('delete from beer_in_cellar where %s = user_id and %s = beer_id' % (user_id_two, beer_user_two))
 
     # Inserts the beer being traded into each others cellars
     db.insert(
@@ -188,6 +188,11 @@ def userBeer(user_id):
         return "This user doesn't have any beer in their cellar. :("
     else:
         return jsonify(results)
+
+@app.route('/user/beerIDandName/<user_id>')
+def whatever(user_id):
+    results = db.query('select beer_id, beer.name from beer_in_cellar inner join beer on beer.id = beer_id where user_id = $1', user_id).dictresult()
+    return jsonify(results)
 
 if __name__ == '__main__':
     app.run(debug=True)
