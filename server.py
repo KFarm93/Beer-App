@@ -9,9 +9,14 @@ API_KEY = "2197e5ac270cdce51585dbf484297b1f"
 brewerydb = BreweryDb()
 brewerydb.configure(API_KEY, DEFAULT_BASE_URI)
 
-db = pg.DB(dbname="Beer-App", user='postgres', passwd='GoBolts27', host='54.149.52.210')
+tmp_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
+static_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
+app = Flask(’Beer-App', static_url_path='', template_folder=tmp_dir,    static_folder=static_folder)
 
-app = Flask('beer_trader', static_url_path = '')
+
+# db = pg.DB(dbname="Beer-App", user='postgres', passwd='GoBolts27', host='54.149.52.210')
+#
+# app = Flask('beer_trader', static_url_path = '')
 
 @app.route('/')
 def home():
