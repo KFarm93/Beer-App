@@ -9,7 +9,7 @@ API_KEY = "2197e5ac270cdce51585dbf484297b1f"
 brewerydb = BreweryDb()
 brewerydb.configure(API_KEY, DEFAULT_BASE_URI)
 
-db = pg.DB(dbname="Beer-App")
+db = pg.DB(dbname="Beer-App", user='postgres', passwd='GoBolts27', host='54.149.52.210')
 
 app = Flask('beer_trader', static_url_path = '')
 
