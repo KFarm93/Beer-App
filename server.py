@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, request, session, flash, jsonify
 from BreweryDB import *
-import pg, bcrypt, datetime, uuid
+import pg, bcrypt, datetime, uuid, os
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
