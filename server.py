@@ -13,7 +13,7 @@ db = pg.DB(dbname="Beer-App")
 
 tmp_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 static_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
-app = Flask('beer_trader', static_url_path='', template_folder=tmp_dir,    static_folder=static_folder)
+app = Flask('beer_trader', static_url_path='', template_folder=tmp_dir, static_folder=static_folder)
 
 @app.route('/')
 def home():

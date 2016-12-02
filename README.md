@@ -129,7 +129,7 @@ def beerBeer(search_term):
 ```
 
 ##### JavaScript
-##### This is where the created API class is created, and the specific API calls are created with this created object
+##### This is where
 ```Python
 DEFAULT_BASE_URI = "http://api.brewerydb.com/v2"
 BASE_URI = ""
