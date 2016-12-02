@@ -105,6 +105,7 @@ app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope, $st
   };
 
     service.userBeers = function(user_id) {
+      console.log(user_id);
       return $http({
         url: '/user/beer/' + user_id
       });
@@ -316,7 +317,7 @@ app.controller('BeerDetailsController', function($scope, BeerAPI, $state, $state
     }
     else {
       $cookies.put('checkCellarCookie', $scope.finalObject);
-      BeerAPI.cellar($scope.finalObject, $cookies.get('user_id')).success(function() {
+      BeerAPI.cellar($scope.finalObject, $cookies.get('users_id')).success(function() {
       });
     }
   };
