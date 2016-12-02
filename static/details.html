@@ -5,9 +5,22 @@
       <div class="content">
         <img src="{{details.labels.large}}" height="300px" width="250px">
       </div>
-      <div class="content">
-        <h2>{{details.description}}</h2>
-      </div>
+      <table class="detailsTable">
+        <tr>
+          <td>Style</td>
+          <td>ABV</td>
+          <td>IBU</td>
+        </tr>
+        <tr>
+          <td>{{details.style.shortName}}</td>
+          <td>{{details.style.abvMax}}</td>
+          <td>{{details.style.ibuMax}}</td>
+        </tr>
+        <tr>
+          <h2>{{details.description}}</h2>
+        </tr>
+      </table>
+      <br><br>
       <button ng-if="logState" type="button" ng-click="cellar()" >Add to cellar</button>
     </div>
   </div>
