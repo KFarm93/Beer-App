@@ -16,24 +16,24 @@
     <div class="wrapper">
       <div class="navbarContainer">
         <form id="loginForm" ng-submit="searchFunction(searchTerm, filter)">
-          <input type="text" ng-model="searchTerm" placeholder="Search">
           <select ng-init="filter='both'" ng-model="filter">
             <option value="both">Breweries and Beers</option>
             <option value="beers">Just Beers</option>
             <option value="breweries">Just Breweries</option>
           </select>
-          <button type="submit" id="clickIt">Go</button>
+          <input type="text" ng-model="searchTerm" placeholder="Search">
+          <button type="submit" class="clickIt">Go</button>
         </form >
       </div>
       <div class="loginButtons">
-        <a ui-sref="user_profile" ng-show="logState"><button type="button" ng-show="logState">My Profile</a>
+        <a ui-sref="user_profile" class="myProfile" ng-show="logState"><button type="button" ng-show="logState">My Profile</a>
         <a ui-sref="login" ng-hide="logState"><button type="button" ng-hide="logState">Login</button></a>
         <a ng-click="logOut()" ng-show="logState"><button type="button">Logout</button></a>
         <a ui-sref="users" ><button type="button">Users</button></a>
         <a ui-sref="signup" ng-hide="logState"><button type="button" ng-hide="logState">Signup</button></a>
       </div>
       <div class="hello">
-        <span ng-show="logState" >Hello, {{user_name}}!</span>
+        <span class="user-greeting" ng-show="logState" >Logged In:{{user_name}}</span>
       </div>
     </div>
 
