@@ -3,6 +3,7 @@ body {
   position: absolute;
   top: 36px;
 }
+
 ul {
   list-style: none;
 }
@@ -124,10 +125,10 @@ html, p, h1, h2, h3, h4 {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 5%;
+  margin: 1%;
 }
 img {
-  margin: 5%;
+  margin: 1%;
   max-width: 70%;
 }
 .block {
@@ -144,12 +145,12 @@ img {
 }
 
 button {
-   background: #65a9d7;
-   background: -webkit-gradient(linear, left top, left bottom, from(#104161), to(#65a9d7));
-   background: -webkit-linear-gradient(top, #104161, #65a9d7);
-   background: -moz-linear-gradient(top, #104161, #65a9d7);
-   background: -ms-linear-gradient(top, #104161, #65a9d7);
-   background: -o-linear-gradient(top, #104161, #65a9d7);
+   background-color: #21282d;
+   background: -webkit-gradient(linear, left top, left bottom, from(#21282d), to(#65a9d7));
+   background: -webkit-linear-gradient(top, #21282d, #65a9d7);
+   background: -moz-linear-gradient(top, #21282d, #65a9d7);
+   background: -ms-linear-gradient(top, #21282d, #65a9d7);
+   background: -o-linear-gradient(top, #21282d, #65a9d7);
    padding: 3px 7px;
    -webkit-border-radius: 8px;
    -moz-border-radius: 8px;
@@ -166,8 +167,8 @@ button {
    }
 button:hover {
    /*border-top-color: #345063;*/
-   background: #345063;
-   color: #ccc;
+   background: #0f1112;
+   color: white;
    }
 button:active {
    border-top-color: #1b435e;

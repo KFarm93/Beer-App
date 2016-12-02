@@ -258,7 +258,7 @@ app.controller('SignUpController', function($scope, $state, BeerAPI, $rootScope)
      'password2': $scope.pass2
    };
    BeerAPI.signUp(userInfo).success(function() {
-     $state.go('home');
+     $state.go('login');
    });
  };
 });
