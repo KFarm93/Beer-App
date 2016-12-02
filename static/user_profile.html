@@ -1,12 +1,12 @@
-<div class="flex">
+<div class="flex" >
   <h1 class="profileResults">My Cellar</h1>
 
-  <ul class="flex" ng-if="logState">
+  <ul class="flex" ng-if="logState" style="list-style-type:none">
     <div class="profileResults">
     </div>
     <li class="flex" ng-repeat="beer in userCellar">
       <img src="{{beer.image_path}}" height="300px">
-      <a href ng-click="getBeerDetails(beer)">{{beer.name}}</a>
+      <a class="block" href ng-click="getBeerDetails(beer)">{{beer.name}}</a>
     </li>
   </ul>
 </div>
