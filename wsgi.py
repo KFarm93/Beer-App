@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import sy
+import sys
 import logging
 import os
 logging.basicConfig(stream=sys.stderr)
