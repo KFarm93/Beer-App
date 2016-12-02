@@ -142,6 +142,7 @@ app.service('productDetails', function($rootScope, $cookies) {
 
     else {
       if (data.object.breweries) {
+        console.log(data.object.breweries);
         $cookies.putObject('brewery', data.object.breweries);
       }
       data.object.breweries[0] = undefined;

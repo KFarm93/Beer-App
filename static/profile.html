@@ -1,7 +1,7 @@
 <!-- when you click on users cellar -->
 <div >
   <ul class="flex" style="list-style-type:none" ng-if="returnBeers">
-    <li class="profileResults" ng-repeat="result in results">
+    <li class="profileResults" ng-repeat="result in results track by $index">
       <a class="block" href ng-click="getBeerDetails(result)">{{result.name}}</a>
       <img src="{{result.image_path}}" height="300px">
       <button class="tradeBeer" type="button" ng-click="tradeBeer(result)">Trade for this beer</button>
