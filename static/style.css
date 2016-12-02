@@ -129,6 +129,10 @@ html, p, h1, h2, h3, h4 {
   justify-content: center;
   margin: 1%;
 }
+.li-flex {
+  flex-direction: column;
+}
+
 img {
   margin: 1%;
   max-width: 70%;

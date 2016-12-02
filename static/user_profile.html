@@ -4,7 +4,7 @@
   <ul class="flex" ng-if="logState" style="list-style-type:none">
     <div class="profileResults">
     </div>
-    <li class="flex" ng-repeat="beer in userCellar">
+    <li class="flex li-flex" ng-repeat="beer in userCellar">
       <a class="block" href ng-click="getBeerDetails(beer)">{{beer.name}}</a>
       <img src="{{beer.image_path}}" height="300px">
 
