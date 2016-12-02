@@ -185,6 +185,11 @@ button:active {
   margin-top: 3em;
 }
 
+.detailsTable td {
+  padding: 5px;
+  border: 1px solid black;
+}
+
 
 /*body {
   background: linear-gradient(ghostwhite, antiquewhite);
