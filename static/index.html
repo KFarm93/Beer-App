@@ -12,20 +12,42 @@
     <title>Beer</title>
   </head>
   <body ng-app="BeerApp" ng-controller="HomeController">
-    <form ng-submit="searchFunction(searchTerm, filter)">
-      <input type="text" ng-model="searchTerm" placeholder="Search">
-      <select ng-init="filter='both'" ng-model="filter">
-        <option value="both">Breweries and Beers</option>
-        <option value="beers">Just Beers</option>
-        <option value="breweries">Just Breweries</option>
-      </select>
-      <button type="submit">Click it real good</button>
-    </form>
-    <a ui-sref="login" ng-hide="logState"> <button type="button">Login</button></a>
-    <a ng-click="logOut()" ng-show="logState"> <button type="button">Logout</button></a>
-    <a ui-sref="users"> <button type="button">Users</button></a>
-    <a ui-sref="signup" ng-hide="logState"> <button type="button">Signup</button></a>
-    <p ng-show="logState">Hello, {{user_name}}!</p>
+    <nav class="fixed-nav-bar">
+    <div class="wrapper">
+      <div class="navbarContainer">
+        <form id="loginForm" ng-submit="searchFunction(searchTerm, filter)">
+          <input type="text" ng-model="searchTerm" placeholder="Search">
+          <select ng-init="filter='both'" ng-model="filter">
+            <option value="both">Breweries and Beers</option>
+            <option value="beers">Just Beers</option>
+            <option value="breweries">Just Breweries</option>
+          </select>
+          <button type="submit" id="clickIt">Go</button>
+        </form >
+      </div>
+      <div class="loginButtons">
+        <a ui-sref="user_profile" ng-show="logState"><button type="button" ng-show="logState">My Profile</a>
+        <a ui-sref="login" ng-hide="logState"><button type="button" ng-hide="logState">Login</button></a>
+        <a ng-click="logOut()" ng-show="logState"><button type="button">Logout</button></a>
+        <a ui-sref="users" ><button type="button">Users</button></a>
+        <a ui-sref="signup" ng-hide="logState"><button type="button" ng-hide="logState">Signup</button></a>
+      </div>
+      <div class="hello">
+        <span ng-show="logState" >Hello, {{user_name}}!</span>
+      </div>
+    </div>
+
+
+
+        <!-- <a ui-sref="user_profile" class="loginButtons" ng-show="logState"><button type="button">My Profile</a>
+        <a ui-sref="login" ng-hide="logState" class="loginButtons"> <button type="button">Login</button></a>
+        <a ng-click="logOut()" ng-show="logState" class="loginButtons"> <button type="button">Logout</button></a>
+        <a ui-sref="users" class="loginButtons"><button type="button">Users</button></a>
+        <a ui-sref="signup" ng-hide="logState" class="loginButtons"> <button type="button">Signup</button></a>
+        <span ng-show="logState" class="loginButtons">Hello, {{user_name}}!</span> -->
+    </nav>
+    <br>
+
     <ui-view></ui-view>
   </body>
 </html>
