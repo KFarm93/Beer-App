@@ -296,9 +296,11 @@ app.controller('UserProfController', function($scope, BeerAPI, $cookies, $state)
 
 app.controller('BeerDetailsController', function($scope, BeerAPI, $state, $stateParams, productDetails, $rootScope, $cookies) {
   $scope.details = $cookies.getObject('beer');
+  console.log($scope.details);
   $scope.brewery = $cookies.getObject('brewery');
   $scope.finalObject = $cookies.getObject('beer');
   $scope.finalObject.breweries = $scope.brewery;
+  console.log($scope.finalObject);
   $scope.cellar = function(){
     // if ($cookies.get('checkCellarCookie')) {
     //   alert('You already have this beer in your cellar.');
