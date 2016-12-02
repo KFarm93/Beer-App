@@ -1,8 +1,6 @@
-# :beer::beer:**Beer App** :beer::beer:
+# :beer::beer:**digitalcraftbeers.com** :beer::beer:
 
-<img src="static/img/logo_with_title.png" alt="Logo" width="150px"/>
-
-##### [Live Project](/ digitalcraftbeer.org /)   |  [Overview](/ https://github.com/KFarm93/Beer-App /)   |   [Team](/ put the team cohort url /)   |   [What We Used](https://github.com/KFarm93/Beer-App#what-we-used)   |   [MVP](https://github.com/DigitalCrafts-September-2016-Cohort/team_freedom_nerdreview#mvp-minimum-viable-product)   |   [Challenges](https://github.com/KFarm93/Beer-App#mvp-minimum-viable-product)   |   [Code](https://github.com/KFarm93/Beer-App#code-snippets)   | [Screenshots](https://github.com/KFarm93/Beer-App#screenshots)   |   [Contributing](https://github.com/KFarm93/Beer-App#contribute-to-nerd-review)
+##### [Live Project](/ digitalcraftbeers.com /)   |  [Overview](/ https://github.com/KFarm93/Beer-App /)   |   [Team](/ put the team cohort url /)   |   [What We Used](https://github.com/KFarm93/Beer-App#what-we-used)   |   [MVP](https://github.com/DigitalCrafts-September-2016-Cohort/team_freedom_nerdreview#mvp-minimum-viable-product)   |   [Challenges](https://github.com/KFarm93/Beer-App#mvp-minimum-viable-product)   |   [Code](https://github.com/KFarm93/Beer-App#code-snippets)   | [Screenshots](https://github.com/KFarm93/Beer-App#screenshots)   |   [Contributing](https://github.com/KFarm93/Beer-App#contribute-to-nerd-review)
 
 ### Overview
 digitalcraftbeer.org is a beer search, cellar, and trading engine that allows you to search through over 59,000 beers and breweries around the world. You can view information about the beers and breweries, and once you've made an account and logged in, you can add any beer you want to your personal cellar. Users who have accounts and beers in their cellars can proposition trades with each other.
@@ -15,13 +13,16 @@ digitalcraftbeer.org is a beer search, cellar, and trading engine that allows yo
 
 * #### [Robert Dunn](https://github.com/robdunn220)
   ###### **\(Back-end Leader)**
-  **Set up making the server.py to make the correct API calls.**
+  **Set up the server.py to make the correct API calls.**
   **Helped set up the data base, and the queries to the data base in server.py**
   **Set up many of the service calls in the JavaScript, and handled what data was supposed to return, and what format it was in.**
 
 * #### [Kirk Abbott](https://github.com/kirkabbott1)
   ###### **\(Front-end & Back-end organizer)**
   **Contributions**
+  **Helped set up database, queries and routes in back end **
+  **Helped write service factory functions along with states/controllers**
+  **Helped with css styling**
 
 * #### [Kevin](https://github.com/KFarm93)
   ###### **\(Front-end & UX/UI designer)**
@@ -29,7 +30,9 @@ digitalcraftbeer.org is a beer search, cellar, and trading engine that allows yo
 
 * #### [Che](https://github.com/CheBlankenship)
   ###### **\(README.md ninja)**
-  **Contributions: **Organize README.md
+  **Contributions:**
+  **Organized README.md**
+  **UI/UX Feedback**
 
 ### What we used
 #### **Languages**
