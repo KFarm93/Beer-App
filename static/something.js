@@ -299,17 +299,26 @@ app.controller('BeerDetailsController', function($scope, BeerAPI, $state, $state
   $scope.finalObject = $cookies.getObject('beer');
   $scope.finalObject.breweries = $scope.brewery;
   $scope.cellar = function(){
-    if ($cookies.get('checkCellarCookie')) {
+    // if ($cookies.get('checkCellarCookie')) {
+    //   alert('You already have this beer in your cellar.');
+    // }
+    // else {
+    //   $cookies.put('checkCellarCookie');
+    //   BeerAPI.cellar($scope.finalObject, $cookies.get('users_id')).success(function() {
+    //   });
+    //   $rootScope.beerAdded = true;
+    // }
+    //
+    // console.log($scope.finalObject);
+
+    if ($cookies.get('checkCellarCookie') === $scope.finalObject) {
       alert('You already have this beer in your cellar.');
     }
     else {
-      $cookies.put('checkCellarCookie');
-      BeerAPI.cellar($scope.finalObject, $cookies.get('users_id')).success(function() {
+      $cookies.put('checkCellarCookie', $scope.finalObject);
+      BeerAPI.cellar($scope.finalObject, $cookies.get('user_id')).success(function() {
       });
-      $rootScope.beerAdded = true;
     }
-
-    console.log($scope.finalObject);
   };
 });
 
