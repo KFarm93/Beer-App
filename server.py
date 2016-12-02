@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, request, session, flash, jsonify
 from BreweryDB import *
 import pg, bcrypt, datetime, uuid
+import os
 
 DEFAULT_BASE_URI = "http://api.brewerydb.com/v2"
 BASE_URI = ""

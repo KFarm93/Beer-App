@@ -293,21 +293,20 @@ app.controller('UserProfController', function($scope, BeerAPI, $cookies, $state)
 
 app.controller('BeerDetailsController', function($scope, BeerAPI, $state, $stateParams, productDetails, $rootScope, $cookies) {
   $scope.details = $cookies.getObject('beer');
+  console.log($scope.details);
   $scope.brewery = $cookies.getObject('brewery');
   $scope.finalObject = $cookies.getObject('beer');
   $scope.finalObject.breweries = $scope.brewery;
+  console.log($scope.finalObject);
   $scope.cellar = function(){
-  //   if ($cookies.get('checkCellarCookie')) {
-  //     alert('You already have this beer in your cellar.');
-  //   }
-  //   else {
-  //     $cookies.put('checkCellarCookie')
-  //     BeerAPI.cellar($scope.finalObject, $cookies.get('users_id')).success(function() {
-  //     });
-  //     $rootScope.beerAdded = true;
-  //   }
-
-    console.log($scope.finalObject);
+    if ($cookies.getObject('checkCellarCookie') === $scope.finalObject) {
+      alert('You already have this beer in your cellar.');
+    }
+    else {
+      $cookies.putObject('checkCellarCookie', $scope.finalObject);
+      BeerAPI.cellar($scope.finalObject, $cookies.get('users_id')).success(function() {
+      });
+    }
   };
 });
 
