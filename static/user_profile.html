@@ -5,8 +5,9 @@
     <div class="profileResults">
     </div>
     <li class="flex" ng-repeat="beer in userCellar">
-      <img src="{{beer.image_path}}" height="300px">
       <a class="block" href ng-click="getBeerDetails(beer)">{{beer.name}}</a>
+      <img src="{{beer.image_path}}" height="300px">
+
     </li>
   </ul>
 </div>
