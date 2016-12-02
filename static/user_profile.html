@@ -1,7 +1,8 @@
 <div class="flex">
+  <h1 class="profileResults">My Cellar</h1>
+
   <ul class="flex" ng-if="logState">
     <div class="profileResults">
-      <h1 class="profileResults">Your Cellar</h1>
     </div>
     <li class="flex" ng-repeat="beer in userCellar">
       <img src="{{beer.image_path}}" height="300px">
