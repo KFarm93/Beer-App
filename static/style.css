@@ -1,12 +1,15 @@
 body {
   background-color: ghostwhite;
   position: absolute;
-  top: 50px;
+  top: 36px;
+}
+ul {
+  list-style: none;
 }
 .wrapper {
   width: auto;
   overflow: auto;
-  background-color: teal;
+  background-color: ghostwhite;;
 }
 .loginButtons a:visited {
   color: white;
@@ -21,7 +24,7 @@ body {
   left: 0;
   z-index: 9999;
   width: 100%;
-  height: 70px;
+  height: 5px;
   background-color: transparent;
 }
 .loginButtons {
@@ -51,6 +54,7 @@ body {
 .navbarContainer {
   display: inline-block;
   margin-top: 10px;
+  height: 36px;
 }
 
 .clickIt {
@@ -123,7 +127,7 @@ html, p, h1, h2, h3, h4 {
   margin: 5%;
 }
 img {
-  margin: 10%;
+  margin: 5%;
   max-width: 70%;
 }
 .block {
@@ -161,7 +165,7 @@ button {
    vertical-align: middle;
    }
 button:hover {
-   border-top-color: #345063;
+   /*border-top-color: #345063;*/
    background: #345063;
    color: #ccc;
    }
@@ -169,6 +173,15 @@ button:active {
    border-top-color: #1b435e;
    background: #1b435e;
    }
+/*.tradeBeer {
+  margin: 10%;
+}*/
+.profileResults {
+  text-align: center;
+  margin-bottom: 2em;
+  margin-top: 3em;
+}
+
 
 /*body {
   background: linear-gradient(ghostwhite, antiquewhite);
