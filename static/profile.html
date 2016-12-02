@@ -1,11 +1,16 @@
-<ul style="list-style-type:none" ng-if="returnBeers">
-  <li ng-repeat="result in results">
-    <img src="{{result.image_path}}" height="300px">
-    <a href ng-click="getBeerDetails(result)">{{result.name}}</a>
-    <button type="button" ng-click="tradeBeer(result)">Trade for this beer</button>
-  </li>
-</ul>
+<!-- when you click on users cellar -->
+<div >
+  <ul class="flex" style="list-style-type:none" ng-if="returnBeers">
+    <li class="profileResults" ng-repeat="result in results">
+      <a class="block" href ng-click="getBeerDetails(result)">{{result.name}}</a>
+      <img src="{{result.image_path}}" height="300px">
+      <button class="tradeBeer" type="button" ng-click="tradeBeer(result)">Trade for this beer</button>
+    </li>
+  </ul>
+  <h1 ng-if="!returnBeers">
+    {{results}}
+  </h1>
+</div>
 
-<h1 ng-if="!returnBeers">
-  {{results}}
-</h1>
+
+</div>
