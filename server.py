@@ -13,6 +13,8 @@ tmp_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 static_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
 app = Flask(’Beer-App', static_url_path='', template_folder=tmp_dir,    static_folder=static_folder)
 
+# db = pg.DB(dbname="Beer-App")
+
 
 # db = pg.DB(dbname="Beer-App", user='postgres', passwd='GoBolts27', host='54.149.52.210')
 #
