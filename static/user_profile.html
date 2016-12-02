@@ -1,6 +1,8 @@
-<ul ng-if="logState">
-  <li ng-repeat="beer in userCellar">
-    <img src="{{beer.image_path}}" height="300px">
-    <a href ng-click="getBeerDetails(beer)">{{beer.name}}</a>
-  </li>
-</ul>
+<div class="flex">
+  <ul ng-if="logState">
+    <li ng-repeat="beer in userCellar">
+      <img src="{{beer.image_path}}" height="300px">
+      <a href ng-click="getBeerDetails(beer)">{{beer.name}}</a>
+    </li>
+  </ul>
+</div>

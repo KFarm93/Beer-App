@@ -8,6 +8,13 @@ body {
   overflow: auto;
   background-color: teal;
 }
+.loginButtons a:visited {
+  color: white;
+  text-decoration: none;
+}
+.loginButtons a {
+  text-decoration: none;
+}
 .fixed-nav-bar {
   position: fixed;
   top: 0;
@@ -23,6 +30,7 @@ body {
   margin-top: 10px;
   margin-right: 1%;
   text-align: center;
+  text-decoration: none;
 }
 .loginButtons button {
   text-align: center;
@@ -37,6 +45,7 @@ body {
 #loginForm {
   margin-left: 3%;
   float: left;
+  width: 100%;
 }
 
 .navbarContainer {
@@ -44,14 +53,29 @@ body {
   margin-top: 10px;
 }
 
+.clickIt {
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+.user-greeting {
+  display: inline-block;
+  vertical-align: -webkit-baseline-middle;
+  margin-right: 20px;
+}
+
+input {
+  font-size: 14px;
+}
+
 button {
-  width: 10%;
-  height: 15%;
+  /*width: 10%;
+  height: 15%;*/
 }
 
 .wrapper button {
-  width: 30%;
-  height: 10%;
+  /*width: 30%;
+  height: 10%;*/
 }
 
 @font-face{
