@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import sy
-simport logging
-Import os
+import logging
+import os
 logging.basicConfig(stream=sys.stderr)
 path =os.path.dirname(os.path.realpath(__file__))
 sys.path.insert(0, path)

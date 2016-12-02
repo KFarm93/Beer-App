@@ -15,7 +15,9 @@ digitalcraftbeer.org is a beer search, cellar, and trading engine that allows yo
 
 * #### [Robert Dunn](https://github.com/robdunn220)
   ###### **\(Back-end Leader)**
-  **Contributions**
+  **Set up making the server.py to make the correct API calls.**
+  **Helped set up the data base, and the queries to the data base in server.py**
+  **Set up many of the service calls in the JavaScript, and handled what data was supposed to return, and what format it was in.**
 
 * #### [Kirk Abbott](https://github.com/kirkabbott1)
   ###### **\(Front-end & Back-end organizer)**
@@ -44,7 +46,6 @@ digitalcraftbeer.org is a beer search, cellar, and trading engine that allows yo
 
 #### API
   * [BreweryDB.com](http://www.brewerydb.com/)
-
 
 #### Other
   * AWS
