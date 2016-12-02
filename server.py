@@ -1,6 +1,8 @@
 from flask import Flask, render_template, redirect, request, session, flash, jsonify
 from BreweryDB import *
 import pg, bcrypt, datetime, uuid
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
 
 DEFAULT_BASE_URI = "http://api.brewerydb.com/v2"
 BASE_URI = ""
@@ -9,7 +11,12 @@ API_KEY = "2197e5ac270cdce51585dbf484297b1f"
 brewerydb = BreweryDb()
 brewerydb.configure(API_KEY, DEFAULT_BASE_URI)
 
-db = pg.DB(dbname="Beer-App")
+db = pg.DB(
+   dbname=os.environ.get('PG_DBNAME'),
+   host=os.environ.get('PG_HOST'),
+   user=os.environ.get('PG_USERNAME'),
+   passwd=os.environ.get('PG_PASSWORD')
+)
 
 tmp_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 static_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
