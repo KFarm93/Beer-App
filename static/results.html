@@ -1,5 +1,5 @@
 <div class="flex">
-  <div class="flex" ng-repeat="result in results track by $index">
+  <div class="flex" ng-repeat="result in results">
       <h4 >{{result.name}}</h4>
 
       <img src="{{result.labels.medium}}" ng-if="result.labels" ng-click="getBeerDetails(result)">
