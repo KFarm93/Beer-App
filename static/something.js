@@ -85,6 +85,7 @@ app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope, $st
    };
 
    service.cellar = function(details, user_id){
+     console.log(details);
      return $http({
        url : '/user/cellar',
        method : "POST",
@@ -298,15 +299,15 @@ app.controller('BeerDetailsController', function($scope, BeerAPI, $state, $state
   $scope.finalObject = $cookies.getObject('beer');
   $scope.finalObject.breweries = $scope.brewery;
   $scope.cellar = function(){
-  //   if ($cookies.get('checkCellarCookie')) {
-  //     alert('You already have this beer in your cellar.');
-  //   }
-  //   else {
-  //     $cookies.put('checkCellarCookie')
-  //     BeerAPI.cellar($scope.finalObject, $cookies.get('users_id')).success(function() {
-  //     });
-  //     $rootScope.beerAdded = true;
-  //   }
+    if ($cookies.get('checkCellarCookie')) {
+      alert('You already have this beer in your cellar.');
+    }
+    else {
+      $cookies.put('checkCellarCookie');
+      BeerAPI.cellar($scope.finalObject, $cookies.get('users_id')).success(function() {
+      });
+      $rootScope.beerAdded = true;
+    }
 
     console.log($scope.finalObject);
   };
