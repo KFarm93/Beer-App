@@ -1,9 +1,87 @@
 body {
   background-color: ghostwhite;
+  position: absolute;
+  top: 36px;
 }
+ul {
+  list-style: none;
+}
+.wrapper {
+  width: auto;
+  overflow: auto;
+  background-color: ghostwhite;;
+}
+.loginButtons a:visited {
+  color: white;
+  text-decoration: none;
+}
+.loginButtons a {
+  text-decoration: none;
+}
+.fixed-nav-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 5px;
+  background-color: transparent;
+}
+.loginButtons {
+  float: right;
+  display: inline-block;
+  margin-top: 10px;
+  margin-right: 1%;
+  text-align: center;
+  text-decoration: none;
+}
+.loginButtons button {
+  text-align: center;
+}
+
+.hello {
+  float: right;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+#loginForm {
+  margin-left: 3%;
+  float: left;
+  width: 100%;
+}
+
+.navbarContainer {
+  display: inline-block;
+  margin-top: 10px;
+  height: 36px;
+}
+
+.clickIt {
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+.user-greeting {
+  display: inline-block;
+  vertical-align: -webkit-baseline-middle;
+  margin-right: 20px;
+}
+
+input {
+  font-size: 14px;
+}
+
 button {
-  width: 20%;
+  /*width: 10%;
+  height: 15%;*/
 }
+
+.wrapper button {
+  /*width: 30%;
+  height: 10%;*/
+}
+
 @font-face{
 	font-family: 'underwood_champion';
 	/*src: url('WebFont.eot');*/
@@ -14,7 +92,7 @@ button {
 	     /*url('WebFont.svg#webfont') format('svg');*/
 }
 
-body, p, h1, h2, h3, h4 {
+html, p, h1, h2, h3, h4 {
   font-family: 'underwood_champion';
 }
 
@@ -36,15 +114,20 @@ body, p, h1, h2, h3, h4 {
   width: 220px;
 }
 
+#signUpButton {
+  width: 22%;
+  height: 10%;
+  font-size: 10px;
+}
 
 .flex {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 10%;
+  margin: 5%;
 }
 img {
-  margin: 10%;
+  margin: 5%;
   max-width: 70%;
 }
 .block {
@@ -60,6 +143,46 @@ img {
   float: left;
 }
 
-body {
-  background: linear-gradient(ghostwhite, antiquewhite);
+button {
+   background: #65a9d7;
+   background: -webkit-gradient(linear, left top, left bottom, from(#104161), to(#65a9d7));
+   background: -webkit-linear-gradient(top, #104161, #65a9d7);
+   background: -moz-linear-gradient(top, #104161, #65a9d7);
+   background: -ms-linear-gradient(top, #104161, #65a9d7);
+   background: -o-linear-gradient(top, #104161, #65a9d7);
+   padding: 3px 7px;
+   -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+   border-radius: 8px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   color: white;
+   font-size: 15px;
+   font-family: Helvetica, Arial, Sans-Serif;
+   text-decoration: none;
+   vertical-align: middle;
+   }
+button:hover {
+   /*border-top-color: #345063;*/
+   background: #345063;
+   color: #ccc;
+   }
+button:active {
+   border-top-color: #1b435e;
+   background: #1b435e;
+   }
+/*.tradeBeer {
+  margin: 10%;
+}*/
+.profileResults {
+  text-align: center;
+  margin-bottom: 2em;
+  margin-top: 3em;
 }
+
+
+/*body {
+  background: linear-gradient(ghostwhite, antiquewhite);
+}*/

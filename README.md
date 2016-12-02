@@ -2,19 +2,10 @@
 
 <img src="static/img/logo_with_title.png" alt="Logo" width="150px"/>
 
-##### [Live Project](/ put the url /)   |  [Overview](/ put the github url /)   |   [Team](/ put the team cohort url /)   |   [What We Used](https://github.com/DigitalCrafts-September-2016-Cohort/team_freedom_nerdreview#what-we-used)   |   [MVP](https://github.com/DigitalCrafts-September-2016-Cohort/team_freedom_nerdreview#mvp-minimum-viable-product)   |   [Challenges](https://github.com/DigitalCrafts-September-2016-Cohort/team_freedom_nerdreview#challenges--solutions)   |   [Code](https://github.com/DigitalCrafts-September-2016-Cohort/team_freedom_nerdreview#code-snippets)   | [Screenshots](https://github.com/DigitalCrafts-September-2016-Cohort/team_freedom_nerdreview#screenshots)   |   [Contributing](https://github.com/DigitalCrafts-September-2016-Cohort/team_freedom_nerdreview#contribute-to-nerd-review)
+##### [Live Project](/ digitalcraftbeer.org /)   |  [Overview](/ https://github.com/KFarm93/Beer-App /)   |   [Team](/ put the team cohort url /)   |   [What We Used](https://github.com/KFarm93/Beer-App#what-we-used)   |   [MVP](https://github.com/DigitalCrafts-September-2016-Cohort/team_freedom_nerdreview#mvp-minimum-viable-product)   |   [Challenges](https://github.com/KFarm93/Beer-App#mvp-minimum-viable-product)   |   [Code](https://github.com/KFarm93/Beer-App#code-snippets)   | [Screenshots](https://github.com/KFarm93/Beer-App#screenshots)   |   [Contributing](https://github.com/KFarm93/Beer-App#contribute-to-nerd-review)
 
 ### Overview
-Beer App is .... Many writers struggle to write sentences of appropriate length.  Some writers write short sentences, which can make an essay seem choppy.  Other writers tend to write long sentences, which can make the writing seem long-winded or wordy, even if it isn’t.  Good writing contains sentences of a variety of lengths: some short, some long, some medium.  This page provides some suggestions for intentionally changing sentence length.
-
-#### Our conceputual goals for the site
-* goal 1
-  * write here
-* goal 1
-  * write here
-  * goal 1
-    * write here
-
+digitalcraftbeer.org is a beer search, cellar, and trading engine that allows you to search through over 59,000 beers and breweries around the world. You can view information about the beers and breweries, and once you've made an account and logged in, you can add any beer you want to your personal cellar. Users who have accounts and beers in their cellars can proposition trades with each other.
 
 ### Github Link
 ###### [Beer App](https://github.com/KFarm93/Beer-App)
@@ -41,26 +32,15 @@ Beer App is .... Many writers struggle to write sentences of appropriate length.
 ### What we used
 #### **Languages**
 * **Python**
-  * PyGreSQL
-  * os
-  * jsonify should we add this?
-  * dotenv
-  * uuid
-  * add more...
+  * Flask
 
+* **JavaScript**
+  * Angular JS
+  * UI Router
 
 * **HTML**
 
 * **CSS**
-
-* **JavaScript**
-  * Angular JS
-  * Add more ...
-
-#### **Frameworks**
-  * Flask
-  * add more...
-  * add more ...
 
 #### API
   * [BreweryDB.com](http://www.brewerydb.com/)
@@ -69,40 +49,99 @@ Beer App is .... Many writers struggle to write sentences of appropriate length.
 #### Other
   * AWS
   * Apache
-  * Add icon source and url later....
-
 
 ### MVP (Minimum Viable Product)
-Beer App is .... Many writers struggle to write sentences of appropriate length.  Some writers write short sentences, which can make an essay seem choppy.  Other writers tend to write long sentences, which can make the writing seem long-winded or wordy, even if it isn’t.  Good writing contains sentences of a variety of lengths: some short, some long, some medium.  This page provides some suggestions for intentionally changing sentence length.
-
-#### **Initial Goals**
-  * Add the Initial goals here...
+Our Minimum Viable Product was a site that would allow users to search a multitude of sorted results, and view and add beers to their cellar. They would be able to view other users beer cellars, and initiate a trade with that user.
 
 #### **Stretch Goals**
-  * Add strch goals here...
-
-
+  * Allow users to trade multiple beers with each other
+  * Allow users to message each other, or at least have notifications about trades
+  * Allow users to share their location and receive information about stores in the area that sell craft beers
 
 
 ### Code examples
-##### Javascript highlight
-```JavaScript
-function test() {
-  consol.log("Add the example in here");
-}
+##### Python API file
+##### Defined class and class methods for making calls to the API and querying the database
+```Python
+import requests
 
-function test2() {
+DEFAULT_BASE_URI = "http://api.brewerydb.com/v2"
+BASE_URI = ""
+API_KEY = "2197e5ac270cdce51585dbf484297b1f"
 
-}
+simple_endpoints = ["beers", "breweries", "categories", "events",
+                    "featured", "features", "fluidsizes", "glassware",
+                    "locations", "guilds", "heartbeat", "ingredients",
+                    "search", "search/upc", "socialsites", "styles"]
+
+single_param_endpoints = ["beer", "brewery", "category", "event",
+                          "feature", "glass", "guild", "ingredient",
+                          "location", "socialsite", "style", "menu"]
+
+
+class BreweryDb:
+
+    @staticmethod
+    def __make_simple_endpoint_fun(name):
+        @staticmethod
+        def _function(options={}):
+            return BreweryDb._get("/" + name, options)
+        return _function
+
+    @staticmethod
+    def __make_singlearg_endpoint_fun(name):
+        @staticmethod
+        def _function(id, options={}):
+            return BreweryDb._get("/" + name + "/" + id, options)
+        return _function
+
+    @staticmethod
+    def _get(request, options):
+        options.update({"key" : BreweryDb.API_KEY})
+        return requests.get(BreweryDb.BASE_URI + request, params=options).json()
+
+    @staticmethod
+    def configure(apikey, baseuri=DEFAULT_BASE_URI):
+        BreweryDb.API_KEY = apikey
+        BreweryDb.BASE_URI = baseuri
+        for endpoint in simple_endpoints:
+            fun = BreweryDb.__make_simple_endpoint_fun(endpoint)
+            setattr(BreweryDb, endpoint.replace('/', '_'), fun)
+        for endpoint in single_param_endpoints:
+            fun = BreweryDb.__make_singlearg_endpoint_fun(endpoint)
+            setattr(BreweryDb, endpoint.replace('/', '_'), fun)
 ```
 
-##### Python highlight
+##### Python API Calls
+##### This is where the created API class is created, and the specific API calls are created with this created object
 ```Python
-def test():
-  print "Add python code here"
+DEFAULT_BASE_URI = "http://api.brewerydb.com/v2"
+BASE_URI = ""
+API_KEY = "2197e5ac270cdce51585dbf484297b1f"
 
-def test2():
-  print "add it here"
+brewerydb = BreweryDb()
+brewerydb.configure(API_KEY, DEFAULT_BASE_URI)
+
+@app.route('/search/beers/<search_term>')
+def beerBeer(search_term):
+    data = brewerydb.search({'q':search_term, 'type': 'beer', 'withBreweries': 'Y'})
+    return jsonify(data)
+```
+
+##### JavaScript
+##### This is where
+```Python
+DEFAULT_BASE_URI = "http://api.brewerydb.com/v2"
+BASE_URI = ""
+API_KEY = "2197e5ac270cdce51585dbf484297b1f"
+
+brewerydb = BreweryDb()
+brewerydb.configure(API_KEY, DEFAULT_BASE_URI)
+
+@app.route('/search/beers/<search_term>')
+def beerBeer(search_term):
+    data = brewerydb.search({'q':search_term, 'type': 'beer', 'withBreweries': 'Y'})
+    return jsonify(data)
 ```
 
 ### Screenshots
