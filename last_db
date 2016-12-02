@@ -1,0 +1,422 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.6.0
+-- Dumped by pg_dump version 9.6.0
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: auth_token; Type: TABLE; Schema: public; Owner: robertdunn
+--
+
+CREATE TABLE auth_token (
+    token text NOT NULL,
+    token_expires timestamp without time zone DEFAULT (now() + '30 days'::interval),
+    users_id integer
+);
+
+
+ALTER TABLE auth_token OWNER TO robertdunn;
+
+--
+-- Name: beer; Type: TABLE; Schema: public; Owner: robertdunn
+--
+
+CREATE TABLE beer (
+    id integer NOT NULL,
+    name text,
+    description text,
+    image_path text,
+    brewery text,
+    style text,
+    abv character varying,
+    ibu integer
+);
+
+
+ALTER TABLE beer OWNER TO robertdunn;
+
+--
+-- Name: beer_in_cellar; Type: TABLE; Schema: public; Owner: robertdunn
+--
+
+CREATE TABLE beer_in_cellar (
+    id integer NOT NULL,
+    beer_id integer,
+    user_id integer
+);
+
+
+ALTER TABLE beer_in_cellar OWNER TO robertdunn;
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: robertdunn
+--
+
+CREATE TABLE users (
+    id integer NOT NULL,
+    username text,
+    email text,
+    password text,
+    first_name text,
+    last_name text
+);
+
+
+ALTER TABLE users OWNER TO robertdunn;
+
+--
+-- Name: customer_id_seq; Type: SEQUENCE; Schema: public; Owner: robertdunn
+--
+
+CREATE SEQUENCE customer_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE customer_id_seq OWNER TO robertdunn;
+
+--
+-- Name: customer_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: robertdunn
+--
+
+ALTER SEQUENCE customer_id_seq OWNED BY users.id;
+
+
+--
+-- Name: product_id_seq; Type: SEQUENCE; Schema: public; Owner: robertdunn
+--
+
+CREATE SEQUENCE product_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE product_id_seq OWNER TO robertdunn;
+
+--
+-- Name: product_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: robertdunn
+--
+
+ALTER SEQUENCE product_id_seq OWNED BY beer.id;
+
+
+--
+-- Name: product_in_purchase_id_seq; Type: SEQUENCE; Schema: public; Owner: robertdunn
+--
+
+CREATE SEQUENCE product_in_purchase_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE product_in_purchase_id_seq OWNER TO robertdunn;
+
+--
+-- Name: product_in_purchase_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: robertdunn
+--
+
+ALTER SEQUENCE product_in_purchase_id_seq OWNED BY beer_in_cellar.id;
+
+
+--
+-- Name: users_trade_beer; Type: TABLE; Schema: public; Owner: robertdunn
+--
+
+CREATE TABLE users_trade_beer (
+    id integer NOT NULL,
+    user_one integer,
+    user_two integer,
+    user_one_beer integer,
+    user_two_beer integer
+);
+
+
+ALTER TABLE users_trade_beer OWNER TO robertdunn;
+
+--
+-- Name: users_trade_beer_id_seq; Type: SEQUENCE; Schema: public; Owner: robertdunn
+--
+
+CREATE SEQUENCE users_trade_beer_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE users_trade_beer_id_seq OWNER TO robertdunn;
+
+--
+-- Name: users_trade_beer_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: robertdunn
+--
+
+ALTER SEQUENCE users_trade_beer_id_seq OWNED BY users_trade_beer.id;
+
+
+--
+-- Name: beer id; Type: DEFAULT; Schema: public; Owner: robertdunn
+--
+
+ALTER TABLE ONLY beer ALTER COLUMN id SET DEFAULT nextval('product_id_seq'::regclass);
+
+
+--
+-- Name: beer_in_cellar id; Type: DEFAULT; Schema: public; Owner: robertdunn
+--
+
+ALTER TABLE ONLY beer_in_cellar ALTER COLUMN id SET DEFAULT nextval('product_in_purchase_id_seq'::regclass);
+
+
+--
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: robertdunn
+--
+
+ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('customer_id_seq'::regclass);
+
+
+--
+-- Name: users_trade_beer id; Type: DEFAULT; Schema: public; Owner: robertdunn
+--
+
+ALTER TABLE ONLY users_trade_beer ALTER COLUMN id SET DEFAULT nextval('users_trade_beer_id_seq'::regclass);
+
+
+--
+-- Data for Name: auth_token; Type: TABLE DATA; Schema: public; Owner: robertdunn
+--
+
+COPY auth_token (token, token_expires, users_id) FROM stdin;
+b605ba01-c560-4b01-838e-d3a426251c45	2016-12-29 14:42:33.697388	7
+ec263942-c90f-4a17-9ba5-5fc4536b147a	2016-12-29 14:45:26.731093	6
+e7f33866-d1ab-479f-9c9e-c0e949f3ea02	2016-12-30 09:12:12.912024	8
+dc57e933-2eca-4511-9b8d-a35da04fa356	2016-12-31 11:08:01.084878	9
+\.
+
+
+--
+-- Data for Name: beer; Type: TABLE DATA; Schema: public; Owner: robertdunn
+--
+
+COPY beer (id, name, description, image_path, brewery, style, abv, ibu) FROM stdin;
+1	Transmigration of Souls	Inspired by the Orphic bone tablets which explore the dichotomous nature of life and death, our Bone Tablet series reveals the many sides of the IPA. Transmigration of Souls is an irresponsibly hopped Double IPA, bursting with life from an absurd amount of aromatic hops. You’ll experience a bouquet of orange, lemon, and tropical fruit sitting on top of a clean, dry malt body.	https://s3.amazonaws.com/brewerydbapi/beer/xl5RJq/upload_pz28OI-large.png	Orpheus Brewing	Imperial IPA	10	100
+2	Lyric Ale	The beautiful music of Orpheus had power over the living, could move inanimate objects, and even hold sway over the gods. Lyric Ale is an ode to this profound beauty, which guides everything we do. We use a blend of hops from three continents and our house saison yeast to strike this harmonic balance of fruit and spice.	https://s3.amazonaws.com/brewerydbapi/beer/Luxogt/upload_CuX43q-large.png	Orpheus Brewing	Specialty	6.5	100
+3	The 12th Labor	The 12th Labor is an overpowering 13% Imperial Stout with intensely layered flavors of dark chocolate, coffee, smoke, and dark fruit. You’ll be lulled to dreams of a distant past you can’t quite remember in a world teeming with noise and flesh. With each sip, The 12th Labor is a struggle at the edge of darkness.	https://s3.amazonaws.com/brewerydbapi/beer/KmKzzx/upload_Nj4z68-large.png	Orpheus Brewing	American Imperial Stout	13	80
+4	Transmigration of Souls	Inspired by the Orphic bone tablets which explore the dichotomous nature of life and death, our Bone Tablet series reveals the many sides of the IPA. Transmigration of Souls is an irresponsibly hopped Double IPA, bursting with life from an absurd amount of aromatic hops. You’ll experience a bouquet of orange, lemon, and tropical fruit sitting on top of a clean, dry malt body.	https://s3.amazonaws.com/brewerydbapi/beer/xl5RJq/upload_pz28OI-large.png	Orpheus Brewing	Imperial IPA	10	100
+5	Sykophantes	In ancient Greece, “showing the fig” was a vulgar hand gesture, and Sykophantes means “one who shows the fig”. Earthy and full of dark fruit flavor from hundreds of pounds of figs and dark candy syrup, but with a sourness that cuts the gentle sweetness, Sykophantes is our fall beer.	https://s3.amazonaws.com/brewerydbapi/beer/aYPQzl/upload_AGOPnU-large.png	Orpheus Brewing	Specialty	7.5	100
+11	See the Stars	Maple Bourbon Barrel Aged Stout\r\n\r\nSee the Stars is one of the Creature Comforts crew’s first barrel projects, beginning shortly after brewing operations commenced in April 2014. After the brewery obtained several Willett bourbon barrels, a handful were sent to Mac’s Maple, a family-owned and operated maple syrup farm in New Hampshire. These barrels were filled with 100% pure wood fired maple syrup and allowed to sit for four months. They were then drained and sent back to Creature Comforts where they were filled with a Russian Imperial Stout. The stout was aged for over a year, settling into a finely balanced, multi-layered offering. The name comes from the famous Ralph Waldo Emmerson quote, "When it is darkest, men can see the stars."	https://s3.amazonaws.com/brewerydbapi/beer/FBixEm/upload_J51S9g-large.png	Creature Comforts Brewing Company	American Imperial Stout	10.9	80
+16	Miller Chill	Launched in 2007, Miller Chill is the only light beer brewed with a hint of lime and a pinch of salt to provide a truly refreshing beer experience. Through all of our marketing efforts, beer drinkers will see that Miller Chill is a celebration and fusion of the best of two cultures, great light beer from America and the chelada style from Mexico. It's the new alternative in mainstream low-cal beers ... one that provides a crisper, smoother, more refreshing beer experience.	https://s3.amazonaws.com/brewerydbapi/beer/JUjEnp/upload_GAYBO1-large.png	Miller Brewing Company	American Light Lager	4.1	10
+17	Blarney's Swag	Explosive nose, well balanced malt body with nice \r\nIPA bitter finish	iStock_beer.jpg	Sean Patrick's Irish Pub and Texas Grub	American IPA	7.2	70
+19	It's Dope, Man	Sorry, no description available.	iStock_beer.jpg	Karben4 Brewing	American IPA	6.5	70
+20	Corona Light	Outside Mexico, Corona is often served with a wedge of citrus fruit - usually lime, occasionally lemon - inserted into the neck of the bottle. Within Mexico, especially in the south, Corona served with lime is not uncommon, but is not considered mandatory.	https://s3.amazonaws.com/brewerydbapi/beer/u7U2Ga/upload_gRgNtH-large.png	Grupo Modelo S.A. de C.V.	American Light Lager	4.5	10
+21	Bud Light	Introduced nationally in 1982, Bud Light is brewed using a blend of domestic and imported hops as well as a combination of barley malts and rice.  It contains more malt and hops by ratio of ingredients than Budweiser, which gives the brew a distinctively clean and crisp taste.	https://s3.amazonaws.com/brewerydbapi/beer/dimtrs/upload_RZTajY-large.png	Miller Brewing Company	American Light Lager	4.2	10
+22	Bourbon County Brand Stout	Brewed in honor of the 1000th batch at our original Clybourn brewpub. A liquid as dark and dense as a black hole with thick foam the color of a bourbon barrel. The nose is an intense mix of charred oak, chocolate, vanilla, caramel and smoke. One sip has more flavor than your average case of beer.	https://s3.amazonaws.com/brewerydbapi/beer/xpf3Jt/upload_asbx9S-large.png	Miller Brewing Company	American Imperial Stout	14.5	80
+23	The Finisher	Sorry, no description available.	https://s3.amazonaws.com/brewerydbapi/beer/sEZDo0/upload_FdU3l6-large.png	Conquest Brewing Company	American Imperial Stout	17.5	80
+24	Lindley Park	An imperial stout brewed with honey and raspberries, then aged in bourbon barrels. Pure bliss. THe chocolate notes from the stout come through and blend with the richness of the honey and the tangy fruit of the raspberries. Then add in the bourbon characteristics picked up from the barrels and you have a beer that will be delicious now, or age well if you want to save this limited release for a special ocassion. Pro tip - this is quite possibly the perfect beer for Valentine's Day, but there's no way it'll last that long in stores, so pick it up for your beer cellar now!	https://s3.amazonaws.com/brewerydbapi/beer/NzKMU3/upload_QMpXDq-large.png	Straight to Ale	American Imperial Stout	10	80
+25	The Event Horizon	The Event Horizon- an annual release. We barrel age an imperial stout in oak bourbon barrels, from several bourbon varieties, and blend the results. Dark and rich with bourbon flavors- once this beer grabs you you'll never escape. Winner of a World Beer Cup (R) 2012 bronze award in the Wood- and Barrel-Aged Strong Stout category! \r\n\r\nReleased each year in the late fall-early winter.	https://s3.amazonaws.com/brewerydbapi/beer/U69UNh/upload_4hSD2R-large.png	Straight to Ale	American Imperial Stout	8.5	80
+26	Bourbon County Brand Barleywine	This traditional English-style barleywine possesses the subtlety of flavor that only comes from a barrel that’s gone through many seasons of ritual care. The intricacies of the previous barrel denizens – oak, charcoal, hints of tobacco and vanilla, and that signature bourbon heat – are all present in this beer. Hearty and complex, Bourbon County Brand Barleywine is a titan and a timeline; a bold, flavorful journey through the craft of barrel aging.	https://s3.amazonaws.com/brewerydbapi/beer/SFuQaw/upload_SMkCDd-large.png	Straight to Ale	American Barleywine	15	100
+27	Bourbon County Brand Coffee Stout	Everyday Goose Island smells Intelligentsia’s coffee roasting next to the brewery. This world class roaster puts the same craftsmanship into their coffee as Goose Island does with its beer. Each year this excellent coffee stout is made with a different bean variety, chosen in collaboration with our brewers and Intelligentsia’s experts. With the change in coffee comes a change in the flavor profile, making each release truly unique from the previous years. The 2015 incarnation features Intelligentsia Los Delirios coffee from Nicaragua. Available nationwide in limited quantities.\r\n2015 Release - Intelligentsia Los Delirios\r\n2014 Release - Intelligentsia Zirikana from Rwanda\r\n2013 Release - Intelligentsia Los Inmortales\r\n2012 Release - Intelligentsia La Tortuga Beans\r\n2011 Release - Intelligentsia Anjilanaka Beans\r\n2010 Release - Intelligentsia Black Cat Espresso Beans	https://s3.amazonaws.com/brewerydbapi/beer/OA1U9e/upload_Iq5P0U-large.png	Straight to Ale	American Imperial Stout	13.4	80
+28	Bourbon County Brand Vanilla Stout	Bourbon County Brand Stout spiced with fresh vanilla beans.	https://s3.amazonaws.com/brewerydbapi/beer/bIuObq/upload_5UK0HR-large.png	Straight to Ale	American Imperial Stout	13	80
+29	KBS (Kentucky Breakfast Stout)	What we’ve got here is an imperial stout brewed with a massive amount of coffee and chocolates, then cave-aged in oak bourbon barrels for an entire year to make sure wonderful bourbon undertones come through in the finish. Makes your taste buds squeal with delight.	https://s3.amazonaws.com/brewerydbapi/beer/0kkUpk/upload_Znh8Gr-large.png	Straight to Ale	American Imperial Stout	11.2	80
+30	Backwoods Bastard	Expect lovely, warm smells of single malt scotch, oaky bourbon barrels, smoke, sweet caramel and roasted malts, a bit of earthy spice, and a scintilla of dark fruit. It’s a kick-back sipper made to excite the palate.	https://s3.amazonaws.com/brewerydbapi/beer/bL7eDZ/upload_aBiXVA-large.png	Straight to Ale	Scotch Ale	10.2	35
+31	Urban Farmhouse Ale	Urban Farmhouse Ale is a light , crisp and refreshing farmhouse ale.\r\n\r\nBronze Medal Winner 2012 World Beer Cup\r\n2013 Beer of the Year: Willamette Week\r\nBest Beer 2012 by Portland Tribune\r\nBest Belgian Style in the 2012  Northwest Brewing News Peoples Choice Awards	https://s3.amazonaws.com/brewerydbapi/beer/eLf8UR/upload_UGydWk-large.png	The Commons Brewery	Saison	5.3	40
+32	XII Peach Habanero Saison	Hot peppers are a touchy fruit and can easily overwhelm a beer. We gently steeped habanero peppers into this saison and match them with 150 pounds of peach puree to create a balanced pepper-fruit beer. With heat in the aroma, peach on the palette, and a slight warming of the throat to finish, this ale will keep you wanting more.	iStock_beer.jpg	Wicked Weed Brewing Company	Saison	6.6	40
+\.
+
+
+--
+-- Data for Name: beer_in_cellar; Type: TABLE DATA; Schema: public; Owner: robertdunn
+--
+
+COPY beer_in_cellar (id, beer_id, user_id) FROM stdin;
+3	17	8
+6	20	8
+9	21	8
+13	23	9
+14	24	9
+15	25	9
+16	26	9
+17	27	9
+18	28	9
+19	29	9
+23	11	8
+27	16	8
+28	22	9
+29	31	8
+30	32	8
+31	30	8
+32	19	9
+\.
+
+
+--
+-- Name: customer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: robertdunn
+--
+
+SELECT pg_catalog.setval('customer_id_seq', 9, true);
+
+
+--
+-- Name: product_id_seq; Type: SEQUENCE SET; Schema: public; Owner: robertdunn
+--
+
+SELECT pg_catalog.setval('product_id_seq', 32, true);
+
+
+--
+-- Name: product_in_purchase_id_seq; Type: SEQUENCE SET; Schema: public; Owner: robertdunn
+--
+
+SELECT pg_catalog.setval('product_in_purchase_id_seq', 32, true);
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: robertdunn
+--
+
+COPY users (id, username, email, password, first_name, last_name) FROM stdin;
+1	name	name@asdf.com	$2b$12$2a0/RYvny1RICSfBS8uAWOAKpw83mRjxnZbfpCfL8WXZSTfrzPru2	bob	last
+2	bob	bob@gmail.com	$2b$12$OsZbr.8YX9b7PzVMTtA/I.niXx5l0Fze6x3leTgk4PYxAqBcmpF4S	bob	lastname
+3	bill	bill@gmail.com	$2b$12$/tDj6jTKudahsAHnvWBHnupQ5kKZoT6v/5cdM2okekdxensMnRnCG	bill	bill
+4	barackobama	barry@gmail.com	$2b$12$pEDu/c7t1tYacqwZ3/tXVeq5i9ORahdRDp2DgqWsra5T1mVw9BfPq	barack	obama
+5	buzzaldrin	buzz@gmail.com	$2b$12$jTkxk/.KqTZ038BUZv.4dupWF5rCjn0cDFbW0mWoJT7t7ipM3BsTK	buzz	aldrin
+6	ozzy	ozzy@gmail.com	$2b$12$KVOm9/ZmlJXUhAa7icuIWOP5vpjWZ811XLX8QetTw1nuJnh0IyUkW	ozzy	osbourne
+8	che	che@gmail.com	$2b$12$f/aoGkSU.6OyGPTiHyY2Ou7HG.QdpojGiYWS2iDEk9Sjfsg5T4ixq	che	nakamura
+9	robdunn220	robertdunn220@gmail.com	$2b$12$2s8WbvXDSOkGnHrc9NCev.8SNSZ9XtmtaQiIIB5JBkWu2teMxIMGK	Robert	Dunn
+\.
+
+
+--
+-- Data for Name: users_trade_beer; Type: TABLE DATA; Schema: public; Owner: robertdunn
+--
+
+COPY users_trade_beer (id, user_one, user_two, user_one_beer, user_two_beer) FROM stdin;
+2	\N	\N	16	11
+3	\N	\N	16	22
+4	8	9	22	16
+5	8	9	19	30
+\.
+
+
+--
+-- Name: users_trade_beer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: robertdunn
+--
+
+SELECT pg_catalog.setval('users_trade_beer_id_seq', 5, true);
+
+
+--
+-- Name: auth_token auth_token_pkey; Type: CONSTRAINT; Schema: public; Owner: robertdunn
+--
+
+ALTER TABLE ONLY auth_token
+    ADD CONSTRAINT auth_token_pkey PRIMARY KEY (token);
+
+
+--
+-- Name: users customer_pkey; Type: CONSTRAINT; Schema: public; Owner: robertdunn
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT customer_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: beer_in_cellar product_in_purchase_pkey; Type: CONSTRAINT; Schema: public; Owner: robertdunn
+--
+
+ALTER TABLE ONLY beer_in_cellar
+    ADD CONSTRAINT product_in_purchase_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: beer product_pkey; Type: CONSTRAINT; Schema: public; Owner: robertdunn
+--
+
+ALTER TABLE ONLY beer
+    ADD CONSTRAINT product_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users_trade_beer users_trade_beer_pkey; Type: CONSTRAINT; Schema: public; Owner: robertdunn
+--
+
+ALTER TABLE ONLY users_trade_beer
+    ADD CONSTRAINT users_trade_beer_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users_trade_beer users_trade_beer_user_one_beer_fkey; Type: FK CONSTRAINT; Schema: public; Owner: robertdunn
+--
+
+ALTER TABLE ONLY users_trade_beer
+    ADD CONSTRAINT users_trade_beer_user_one_beer_fkey FOREIGN KEY (user_one_beer) REFERENCES beer(id);
+
+
+--
+-- Name: users_trade_beer users_trade_beer_user_one_fkey; Type: FK CONSTRAINT; Schema: public; Owner: robertdunn
+--
+
+ALTER TABLE ONLY users_trade_beer
+    ADD CONSTRAINT users_trade_beer_user_one_fkey FOREIGN KEY (user_one) REFERENCES users(id);
+
+
+--
+-- Name: users_trade_beer users_trade_beer_user_two_beer_fkey; Type: FK CONSTRAINT; Schema: public; Owner: robertdunn
+--
+
+ALTER TABLE ONLY users_trade_beer
+    ADD CONSTRAINT users_trade_beer_user_two_beer_fkey FOREIGN KEY (user_two_beer) REFERENCES beer(id);
+
+
+--
+-- Name: users_trade_beer users_trade_beer_user_two_fkey; Type: FK CONSTRAINT; Schema: public; Owner: robertdunn
+--
+
+ALTER TABLE ONLY users_trade_beer
+    ADD CONSTRAINT users_trade_beer_user_two_fkey FOREIGN KEY (user_two) REFERENCES users(id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
