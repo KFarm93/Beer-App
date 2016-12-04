@@ -169,8 +169,9 @@ app.service('productDetails', function($rootScope, $cookies) {
 // Test controller
 
 app.controller('HomeController', function($scope, BeerAPI, $cookies, $rootScope){
+  console.log('You are in the home controller');
   //  $scope.name = 'Budweiser';
-  //    BeerAPI.displayBeer($scope.name).success(function(results){
+  //    BeerAPI.displayBeers($scope.name).success(function(results){
   //      $scope.results = results;
   //      console.log("Here", $scope.results);
   //    });
@@ -389,7 +390,8 @@ app.config(function($stateProvider, $urlRouterProvider){
   $stateProvider
     .state({
       name: 'home',
-      url: '/home',
+      url: '/',
+      templateUrl: 'frontpage.html',
       controller: 'HomeController'
     })
     .state({
