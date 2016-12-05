@@ -1,16 +1,37 @@
 body {
-  background-color: ghostwhite;
+  background-color: whitesmoke;
   position: absolute;
   top: 36px;
 }
-
+.welcome {
+  margin-top: 10%;
+  background: antiquewhite;
+  text-align: center;
+  margin: auto;
+  border-radius: 8px;
+  max-width: 350px;
+}
+.welcome p {
+  margin: 5%;
+}
+.frontPageBackground {
+  margin-top: 20%;
+  background-image: url(brick-wall.jpg);
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 ul {
   list-style: none;
 }
 .wrapper {
   width: auto;
   overflow: auto;
-  background-color: ghostwhite;;
+  background-color: whitesmoke;;
 }
 .loginButtons a:visited {
   color: white;
