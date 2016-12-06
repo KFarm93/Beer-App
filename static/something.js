@@ -111,7 +111,7 @@ app.factory("BeerAPI", function factoryFunction($http, $cookies, $rootScope, $st
       });
     };
 
-    service.justGiveMeTheShitIWant = function(user_id) {
+    service.IdAndName = function(user_id) {
       return $http({
         url: '/user/beerIDandName/' + user_id
       });
@@ -372,7 +372,7 @@ app.controller('TradeController', function($scope, $cookies, BeerAPI) {
   console.log($cookies.getObject('beerTrade'));
   $scope.beer_user_two = $cookies.getObject('beerTrade');
   console.log($cookies.get('user_id_two'));
-  BeerAPI.justGiveMeTheShitIWant($cookies.get('users_id')).success(function(results) {
+  BeerAPI.IdAndName($cookies.get('users_id')).success(function(results) {
     $scope.user_one_beercellar = results;
   });
 
